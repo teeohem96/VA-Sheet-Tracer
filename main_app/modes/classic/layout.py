@@ -176,6 +176,7 @@ def addItems(app):
     app.mouseModeLayout.addWidget(QRadioButton("Outline Fragment"))
     app.mouseModeLayout.addWidget(QRadioButton("Move Points"))
     app.mouseModeLayout.addWidget(QRadioButton("Delete Points"))
+    app.mouseModeLayout.addWidget(QRadioButton("Insert Points (Unimplemented)"))
     app.mouseModeLayout.addWidget(QRadioButton("Annotate"))
     app.mouseModeLayout.addWidget(QRadioButton("Mark Origin"))
 
@@ -185,6 +186,7 @@ def addItems(app):
     app.mouseModeGroup.addButton(app.mouseModeLayout.itemAt(3).widget(), 3)
     app.mouseModeGroup.addButton(app.mouseModeLayout.itemAt(4).widget(), 4)
     app.mouseModeGroup.addButton(app.mouseModeLayout.itemAt(5).widget(), 5)
+    app.mouseModeGroup.addButton(app.mouseModeLayout.itemAt(6).widget(), 6)
     app.mouseModeGroup.button(0).setChecked(True)
     app.mouseMode = "Pan"
 

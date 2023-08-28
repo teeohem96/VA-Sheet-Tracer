@@ -26,8 +26,10 @@ class EventHandler(EventHandlerBase):
         elif id == 3:
             self.app.mouseMode = "Delete Points"
         elif id == 4:
-            self.app.mouseMode = "Label Ink"
+            self.app.mouseMode = "Insert Points"
         elif id == 5:
+            self.app.mouseMode = "Label Ink"
+        elif id == 6:
             self.app.mouseMode = "Mark Origin"
         else:
             print("Warning: invalid mouse mode")
@@ -359,8 +361,8 @@ class EventHandler(EventHandlerBase):
 
                     elif closestIndex != len(self.app.image.annotations[self.app._frame_index]): #middle point deleted
                         
-                        self.app.image.annotation_buffer[self.app._frame_index].pop(closestIndex-1)
                         self.app.image.annotation_buffer[self.app._frame_index].pop(closestIndex)
+                        self.app.image.annotation_buffer[self.app._frame_index].pop(closestIndex-1)
 
                         newseg = vector_trace(self.app.image.annotations[self.app._frame_index][closestIndex-1:closestIndex+1],
                             self.app.image.imshape,

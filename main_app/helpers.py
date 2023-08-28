@@ -138,7 +138,7 @@ def vector_trace(points, imShape, field, mesh):
 		interp = []
 
 		# print(mesh.shape)
-		print (field.shape)
+		#print (field.shape)
 		flowline_1, flowline_2 = create_stream_pair(
 			mesh[0], 
 			mesh[1], 
@@ -177,6 +177,11 @@ def vector_trace(points, imShape, field, mesh):
 			interp.append(Point(x/imShape[1], y/imShape[0],0,2))
 		return interp
 
+def concat_annotation_buffer(buffer_list):
+	pts = []
+	for seg in buffer_list:
+		pts.extend(seg)
+	return pts
 
 class ImageLabel(QLabel):
 	def __init__(self, pmap, app):

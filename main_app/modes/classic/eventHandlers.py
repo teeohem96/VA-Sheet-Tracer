@@ -274,8 +274,7 @@ class EventHandler(EventHandlerBase):
                 
                     # self.app.image.streamline_segs.extend(rawline)
                     # interped = rawline_to_point(self.app.image.streamline_segs)
-            
-            
+                    self.app.image.annotation_buffer[self.app._frame_index].append(rawline)
                     self.app.image.interpolated[self.app._frame_index].extend(rawline)
                 self.app._update_image()
 
@@ -352,14 +351,30 @@ class EventHandler(EventHandlerBase):
                 )
 
                 if closestDist < 0.01:
-                    '''
                     
-                    '''
                     self.app.image.annotations[self.app._frame_index].pop(closestIndex)
-                    self.app.image.interpolated[self.app._frame_index] = interpolatePoints(
-                        self.app.image.annotations[self.app._frame_index],
-                        self.app.image.imshape,
-                    )
+
+                    if closestIndex == 0: #first point deleted
+                       self.app.image.annotation_buffer[self.app._frame_index].pop(closestIndex)
+
+                    elif closestIndex != len(self.app.image.annotations[self.app._frame_index]): #middle point deleted
+                        
+                        self.app.image.annotation_buffer[self.app._frame_index].pop(closestIndex-1)
+                        self.app.image.annotation_buffer[self.app._frame_index].pop(closestIndex)
+
+                        newseg = vector_trace(self.app.image.annotations[self.app._frame_index][closestIndex-1:closestIndex+1],
+                            self.app.image.imshape,
+                            self.app.vector_field,
+                            self.app.mesh,
+                            )
+
+                        self.app.image.annotation_buffer[self.app._frame_index].insert(closestIndex-1, newseg)
+
+                    else: #last point deleted
+                        self.app.image.annotation_buffer[self.app._frame_index].pop(closestIndex-1)
+                    
+                    self.app.image.interpolated[self.app._frame_index] = concat_annotation_buffer(self.app.image.annotation_buffer[self.app._frame_index])
+
                 self.app._update_image()
 
             elif self.app.mouseMode == "Mark Origin":

@@ -134,7 +134,7 @@ def create_vec_field(
 
     #clip image at tex_thresh to enhance textures and remove high intensity noise
     clip_img = np.minimum(img, tex_thresh*np.ones(img.shape))
-
+    hann = skimg.filters.window('hann', (win+1, win+1))
     for row in range(N_y):
         print('processing row {row} of {N_y}...'.format(row = row + 1, N_y = N_y))
         for col in range(N_x):
@@ -143,7 +143,7 @@ def create_vec_field(
                 #generate region of interest and analyse in frequency domain
                 roi = clip_img[stride*row : stride*row + win+1, stride*col : stride*col + win+1]
                 #roi = clip_img[stride*(row+1) : stride*(row+1) + win + 1, stride*(col+1) : stride*(col+1) + win+1]
-                roi = roi * skimg.filters.window('hann', roi.shape)
+                roi = roi * hann
                 
                 ft = np.abs(np.fft.fftshift(np.fft.fft2(roi)))
                 

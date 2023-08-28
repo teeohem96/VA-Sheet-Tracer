@@ -72,7 +72,7 @@ class EventHandler(EventHandlerBase):
             self.app, "Save File", os.getcwd(), "Numpy Files (*.npy)"
         )
         stride, done = QInputDialog.getInt(
-           self.app, 'Input Dialog', 'Enter stride (downsample factor):') 
+           self.app, 'Input Dialog', 'Enter stride (odd number):') 
 
         origin = self.app.origin
 

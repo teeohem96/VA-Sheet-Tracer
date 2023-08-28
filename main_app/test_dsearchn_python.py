@@ -161,14 +161,14 @@ def generate_unified_flowline(flowline_1, flowline_2, subsample_rate=5, search_o
 
     a1 = np.linalg.norm(pt_a - np.array(origin))
     b1s = np.linalg.norm(flowline_1 - np.array(origin), axis=1)
-    print('b1s: ')
-    print(b1s)
+    # print('b1s: ')
+    # print(b1s)
     c1 = np.linalg.norm(flowline_1 - pt_a, axis=1)
 
     a2 = np.linalg.norm(pt_b - np.array(origin))
     b2s = np.linalg.norm(flowline_1 - np.array(origin), axis=1)
-    print('b2s: ')
-    print(b2s)
+    # print('b2s: ')
+    # print(b2s)
     c2 = np.linalg.norm(flowline_1 - pt_b, axis=1)
 
     c_query = np.linalg.norm(pt_a - pt_b)
@@ -178,8 +178,8 @@ def generate_unified_flowline(flowline_1, flowline_2, subsample_rate=5, search_o
     query_angle = np.arccos((a1**2 + a2**2 - c_query**2)/(2*a1*a2))
 
     invalid = np.logical_or(angles_a > query_angle, angles_b > query_angle)
-    print('invalids: ')
-    print(invalid)
+    # print('invalids: ')
+    # print(invalid)
     flowline_1 = flowline_1[invalid==0]
 
     distances_1, indices_1 = get_nearest_neighbor_indices(flowline_2,flowline_1)    # arguments are ordered: search space, then query points

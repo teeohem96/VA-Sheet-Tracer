@@ -61,16 +61,17 @@ def create_stream_pair(x, y, u, v, ub, vb, start, end, density = 500, maxlength=
 
     # deal with issue where if angle goes in an odd way, streamplot doesn't like it.
     start_angle     = np.arctan2(start[1]-origin[1], start[0]-origin[0])
-    start_angle    += 2*np.pi*(start_angle<0)
+    # start_angle    += 2*np.pi*(start_angle<0)
     end_angle       = np.arctan2(end[1]-origin[1], end[0]-origin[0])
-    end_angle      += 2*np.pi*(end_angle<0)
+    
+    swap_pts = ((end_angle-start_angle < 0)*(start_angle-end_angle<np.pi)) or (end_angle-start_angle>np.pi)
 
 ##    print("start: "+str(start))
 ##    print("end: "+str(end))
 ##
 ##    print("start_angle: "+str(start_angle))
 ##    print("end_angle: "+str(end_angle))
-    if end_angle < start_angle:
+    if swap_pts:
         start, end = end, start
 
 

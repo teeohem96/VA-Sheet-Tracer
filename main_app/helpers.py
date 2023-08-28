@@ -147,7 +147,7 @@ def vector_trace(points, imShape, field):
 			(pixels[-1][0], pixels[-1][1]), 
 			(pixels[0][0], pixels[0][1]), 
 			density=100, 
-			maxlength=1, 
+			maxlength=0.5, 
 			origin = (3758, 3531)
 			)
 		# print('flowline_1: ')

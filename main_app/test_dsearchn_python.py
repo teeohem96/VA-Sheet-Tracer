@@ -13,21 +13,22 @@ def check_bijective_nearest_neighbors():
     pass
 
 
-def show_stitching_results(flowline_1, flowline_2, distances_2, indices_2, distances_1, indices_1, natural_bijective_indices=[], pseudobijective_indices=[],weighted_midpoints=[]):
+def show_stitching_results(flowline_1, flowline_2, distances_2, indices_2, distances_1, indices_1, natural_bijective_indices=[], pseudobijective_indices=[],weighted_midpoints=[],origin = (0,0)):
     fig, ax = plt.subplots()
     flowline_1_x = flowline_1[:,0]
     flowline_1_y = flowline_1[:,1]
     flowline_2_x = flowline_2[:,0]
     flowline_2_y = flowline_2[:,1]
     
-    ax.scatter(flowline_1_x, flowline_1_y, c="blue",label="Flowline_1")
-    ax.scatter(flowline_2_x, flowline_2_y, c="red",label="Flowline_2")
+    ax.scatter(flowline_1_x, flowline_1_y, c=range(len(flowline_1_x)),cmap="Blues",label="Flowline_1")
+    ax.scatter(flowline_2_x, flowline_2_y, c=range(len(flowline_2_x)),cmap="Reds",label="Flowline_2")
     #ax.scatter([flowline_1_x[index] for index in indices_1],[flowline_1_y[index] for index in indices_1], c="yellow",label ="Flowline_1 Source Point")
     #ax.scatter([flowline_2_x[index] for index in indices_2],[flowline_2_y[index] for index in indices_2], c="gold",label = "Flowline_2 Source Point")
 
     ax.text(flowline_1_x[0], flowline_1_y[0],"Flowline_1 Start Point")
     ax.text(flowline_2_x[0], flowline_2_y[1],"Flowline_2 Start Point")
-
+    ax.plot([origin[0], flowline_1_x[0]],[origin[1], flowline_1_y[0]],  '-',color="purple", alpha=0.95) 
+    ax.plot([origin[0], flowline_2_x[0]],[origin[1], flowline_2_y[0]],  '-',color="mediumpurple", alpha=0.95)
 
     ax.legend(bbox_to_anchor=(0.5, 0), loc='lower center', bbox_transform=fig.transFigure, ncol=4,)
     ax.set_aspect('equal')
@@ -148,12 +149,38 @@ def get_random_pointsets(source_size, query_size, scaling):
 
 
 
-def generate_unified_flowline(flowline_1, flowline_2, subsample_rate=10, search_offset=0, bijection_infill_threshold=3, bijection_infill_style="dense"):
+def generate_unified_flowline(flowline_1, flowline_2, subsample_rate=5, search_offset=0, bijection_infill_threshold=3, bijection_infill_style="dense", origin =(3758,3531)):
     print("generating unified flowline...")
     #flowline_2 = np.asarray(list(reversed(list(flowline_2))))
     # print("subsample_rate: "+str(subsample_rate))
     flowline_1 = flowline_1[::subsample_rate]
     flowline_2 = flowline_2[::subsample_rate]
+
+    pt_a = np.array((flowline_2[0,0], flowline_2[0,1]))
+    pt_b = np.array((flowline_1[0,0], flowline_1[0,1]))
+
+    a1 = np.linalg.norm(pt_a - np.array(origin))
+    b1s = np.linalg.norm(flowline_1 - np.array(origin), axis=1)
+    print('b1s: ')
+    print(b1s)
+    c1 = np.linalg.norm(flowline_1 - pt_a, axis=1)
+
+    a2 = np.linalg.norm(pt_b - np.array(origin))
+    b2s = np.linalg.norm(flowline_1 - np.array(origin), axis=1)
+    print('b2s: ')
+    print(b2s)
+    c2 = np.linalg.norm(flowline_1 - pt_b, axis=1)
+
+    c_query = np.linalg.norm(pt_a - pt_b)
+
+    angles_a = np.arccos((np.square(a1) + np.square(b1s) - np.square(c1))/(2*a1*b1s))
+    angles_b = np.arccos((np.square(a2) + np.square(b2s) - np.square(c2))/(2*a2*b2s))
+    query_angle = np.arccos((a1**2 + a2**2 - c_query**2)/(2*a1*a2))
+
+    invalid = np.logical_or(angles_a > query_angle, angles_b > query_angle)
+    print('invalids: ')
+    print(invalid)
+    flowline_1 = flowline_1[invalid==0]
 
     distances_1, indices_1 = get_nearest_neighbor_indices(flowline_2,flowline_1)    # arguments are ordered: search space, then query points
     distances_2, indices_2 = get_nearest_neighbor_indices(flowline_1,flowline_2)
@@ -167,6 +194,8 @@ def generate_unified_flowline(flowline_1, flowline_2, subsample_rate=10, search_
     #  e.g. if point at index 2 in flowline_1 has a nearest neighbor at index 5 in flow_line_2 AND, the point at index 5 in flowline_2 has a nearest neighbor at index 2 in flowline_1, then add index 2 to the list of flowline_1 bijective indices
     natural_bijective_indices_1 = []
     natural_bijective_indices_2 = []
+    
+
     # natural_bijective_distances_1 = []
 
     for i in range(search_offset,len(indices_1)-search_offset): #[:100]:
@@ -218,10 +247,23 @@ def generate_unified_flowline(flowline_1, flowline_2, subsample_rate=10, search_
             natural_bijective_indices_2.append(index_2)
             # natural_bijective_distances_1.append(distances_1[i])    # note: you could do this for flowline 2, but it should be the same number, so omitting for now
 
-##    print("len(natural_bijective_indices_1): "+str(len(natural_bijective_indices_1)))
+    print("len(natural_bijective_indices_1): "+str(len(natural_bijective_indices_1)))
 ##    print("len(natural_bijective_indices_2): "+str(len(natural_bijective_indices_2)))
     #print("bijective_indices_1: "+str(bijective_indices_1))
+    #natural indices done
 
+
+    
+
+    # ax = show_stitching_results(flowline_1, flowline_2, distances_2, indices_2, distances_1, indices_1, natural_bijective_indices=natural_bijective_indices_1, origin = origin)
+    # ax.scatter(origin[0], origin[1])
+    # ax.text(origin[0], origin[1],"Origin")
+    
+    
+    # plt.show()
+
+
+    #natural_angles_1 = [np.arctan2(flowline_2[1])]
     # list of induced bijections 
     pseudobijective_indices_1 = []
     pseudobijective_indices_2 = []
@@ -273,11 +315,13 @@ def generate_unified_flowline(flowline_1, flowline_2, subsample_rate=10, search_
             pseudobijective_indices_1.append(natural_bijective_index_1_start)
             pseudobijective_indices_2.append(natural_bijective_index_2_start)
 
-        
+    if len(natural_bijective_indices_1) <= 1:
+        pseudobijective_indices_1.append(natural_bijective_indices_1[0])
+        pseudobijective_indices_2.append(natural_bijective_indices_2[0])
+
     # PART WHERE THE INTERPOLATION SECTION ENDS
     bijective_indices_1 = [int(round(n, 0)) for n in pseudobijective_indices_1]
     bijective_indices_2 = [int(round(n, 0)) for n in pseudobijective_indices_2]
-    # I'm assuming you replace something with these pseudobijective indices so I'll leave that with you 
             
 ##    print("len(bijective_indices_1): "+str(len(bijective_indices_1)))
 ##    print("len(bijective_indices_2): "+str(len(bijective_indices_2)))
@@ -298,7 +342,15 @@ def generate_unified_flowline(flowline_1, flowline_2, subsample_rate=10, search_
         bijective_spatial_points = [flowline_1[bijective_index_pair[0]], flowline_2[bijective_index_pair[1]]]
 
         # calculate fractional representation of bijective segment (should range from 1.0 to 0.0)
-        flowline_1_pc = 1 - (bijection_start_2-bijective_index_pair[0])/((bijection_start_2-bijective_index_pair[0])+(bijection_start_1-bijective_index_pair[1]))
+        
+
+        try:
+        # Floor Division : Gives only Fractional Part as Answer
+            flowline_1_pc = 1 - (bijection_start_2-bijective_index_pair[0])/((bijection_start_2-bijective_index_pair[0])+(bijection_start_1-bijective_index_pair[1]))
+        except ZeroDivisionError:
+            print("div by zero btw")
+            flowline_1_pc = 0.5
+
         
         #print("bijective_index_pair: "+str(bijective_index_pair)+"\tbijective_spatial_points: "+str(bijective_spatial_points[0])+", "+str(bijective_spatial_points[1])+"\tflowline_2["+str(bijective_index_pair[1])+"]: "+str(flowline_2[bijective_index_pair[1]])+"\tflowline_1_pc: "+str(round(flowline_1_pc,2)))
         weighted_midpoint_x = flowline_1_pc*flowline_1[bijective_index_pair[0]][0] + (1 - flowline_1_pc)*flowline_2[bijective_index_pair[1]][0]

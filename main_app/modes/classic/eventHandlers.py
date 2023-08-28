@@ -239,20 +239,16 @@ class EventHandler(EventHandlerBase):
 				
 				if len(self.app.image.annotations[self.app._frame_index]) > 1:
 
-					print('before rawline')
+				
 					rawline = vector_trace(self.app.image.annotations[self.app._frame_index][-2:],
 						self.app.image.imshape,
 						self.app.vector_field
 						)	
 
-					print('after')
+				
 					# self.app.image.streamline_segs.extend(rawline)
 					# interped = rawline_to_point(self.app.image.streamline_segs)
 			
-					interped = interpolatePoints(
-						self.app.image.annotations[self.app._frame_index][-2:],
-						self.app.image.imshape,
-					)
 			
 					self.app.image.interpolated[self.app._frame_index].extend(rawline)
 				self.app._update_image()

@@ -352,6 +352,9 @@ class EventHandler(EventHandlerBase):
                 )
 
                 if closestDist < 0.01:
+                    '''
+                    
+                    '''
                     self.app.image.annotations[self.app._frame_index].pop(closestIndex)
                     self.app.image.interpolated[self.app._frame_index] = interpolatePoints(
                         self.app.image.annotations[self.app._frame_index],

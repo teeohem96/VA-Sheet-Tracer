@@ -1,5 +1,9 @@
 print("take a directory of .tif files, and generate name-matched .npy files for each of them")
 
+'''
+unused code; requires automated origin detection beforei it can be included in pipeline
+'''
+
 
 import numpy as np
 import skimage as skimg

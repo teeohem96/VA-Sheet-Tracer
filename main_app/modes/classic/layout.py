@@ -59,6 +59,9 @@ def addItems(app):
     app.button_save_2D = QPushButton("Save 2D Projection", app)
     app.button_save_2D.clicked.connect(app.EH.on_save_2D)
 
+    app.button_gen_vec = QPushButton("Generate Slice Vector Field", app)
+    app.button_gen_vec.clicked.connect(app.EH.on_gen_vec)
+
     app.button_load_vec = QPushButton("Load Slice Vector Field", app)
     app.button_load_vec.clicked.connect(app.EH.on_load_vec)
 
@@ -174,12 +177,14 @@ def addItems(app):
     app.mouseModeLayout.addWidget(QRadioButton("Move Points"))
     app.mouseModeLayout.addWidget(QRadioButton("Delete Points"))
     app.mouseModeLayout.addWidget(QRadioButton("Annotate"))
+    app.mouseModeLayout.addWidget(QRadioButton("Mark Origin"))
 
     app.mouseModeGroup.addButton(app.mouseModeLayout.itemAt(0).widget(), 0)
     app.mouseModeGroup.addButton(app.mouseModeLayout.itemAt(1).widget(), 1)
     app.mouseModeGroup.addButton(app.mouseModeLayout.itemAt(2).widget(), 2)
     app.mouseModeGroup.addButton(app.mouseModeLayout.itemAt(3).widget(), 3)
     app.mouseModeGroup.addButton(app.mouseModeLayout.itemAt(4).widget(), 4)
+    app.mouseModeGroup.addButton(app.mouseModeLayout.itemAt(5).widget(), 5)
     app.mouseModeGroup.button(0).setChecked(True)
     app.mouseMode = "Pan"
 
@@ -290,6 +295,7 @@ def createLayout(app):
     control_layout2.addWidget(app.unwrapStyleWidget)
     control_layout2.addWidget(app.button_save_2D)
 
+    control_layout2.addWidget(app.button_gen_vec)
     control_layout2.addWidget(app.button_load_vec)
 
     app.label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)

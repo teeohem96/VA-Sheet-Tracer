@@ -130,20 +130,22 @@ def interpolatePoints(points, imShape):
 			interp.append(Point(x/imShape[1], y/imShape[0],0,2))
 	return interp
 
-def vector_trace(points, imShape, field):
+def vector_trace(points, imShape, field, mesh):
 	if field is not None:
 		pixels = [[int(round(i.x*imShape[1])), int(round(i.y*imShape[0]))] for i in points]
 		print('pixels:')
 		print(pixels)
 		interp = []
 
+		# print(mesh.shape)
+		print (field.shape)
 		flowline_1, flowline_2 = create_stream_pair(
+			mesh[0], 
+			mesh[1], 
 			field[0], 
 			field[1], 
 			field[2], 
 			field[3], 
-			field[4], 
-			field[5], 
 			(pixels[-1][0], pixels[-1][1]), 
 			(pixels[0][0], pixels[0][1]), 
 			density=100, 

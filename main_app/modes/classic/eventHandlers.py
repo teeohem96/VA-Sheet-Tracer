@@ -4,7 +4,8 @@ from main_app.helpers import *
 
 import numpy as np
 import sys
-sys.path.append("C:\\Users\\Tom\\Documents\\Vesuvius\\VolumeAnnotate\\VolumeAnnotate\\StreamlineCode\\")
+import os
+sys.path.append(os.getcwd() + "..\\StreamlineCode\\")
 import im2vec
 import test_dsearchn_python
 

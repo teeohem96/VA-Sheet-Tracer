@@ -16,7 +16,7 @@ import struct
 
 # import matplotlib.pyplot as plt
 import sys
-sys.path.append("C:\\Users\\Tom\\Documents\\Vesuvius\\VolumeAnnotate\\VolumeAnnotate\\StreamlineCode\\")
+sys.path.append(os.getcwd() + "..\\StreamlineCode\\")
 import im2vec
 import test_dsearchn_python
 

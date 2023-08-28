@@ -260,25 +260,23 @@ class EventHandler(EventHandlerBase):
 
             
             if self.app.mouseMode == "Outline Fragment":
-                
-                self.app.image.annotations[self.app._frame_index].append(Point(x, y))
-                #pixel_point = self.relative_point_to_pixel_point(point)
-                
-                if len(self.app.image.annotations[self.app._frame_index]) > 1:
 
-                    # print(self.app.mesh.shape)
-                    rawline = vector_trace(self.app.image.annotations[self.app._frame_index][-2:],
-                        self.app.image.imshape,
-                        self.app.vector_field,
-                        self.app.mesh,
-                        )   
+                if self.app.vector_field is not None:
+                    self.app.image.annotations[self.app._frame_index].append(Point(x, y))
+                    if len(self.app.image.annotations[self.app._frame_index]) > 1:
 
-                
-                    # self.app.image.streamline_segs.extend(rawline)
-                    # interped = rawline_to_point(self.app.image.streamline_segs)
-                    self.app.image.annotation_buffer[self.app._frame_index].append(rawline)
-                    self.app.image.interpolated[self.app._frame_index].extend(rawline)
-                self.app._update_image()
+                        # print(self.app.mesh.shape)
+                        rawline = vector_trace(self.app.image.annotations[self.app._frame_index][-2:],
+                            self.app.image.imshape,
+                            self.app.vector_field,
+                            self.app.mesh,
+                            )   
+
+                        self.app.image.annotation_buffer[self.app._frame_index].append(rawline)
+                        self.app.image.interpolated[self.app._frame_index].extend(rawline)
+                    self.app._update_image()
+                else: 
+                    print("No vector field found!")
 
             elif self.app.mouseMode == "Label Ink":
                 if len(self.app.image.interpolated[self.app._frame_index]) == 0:

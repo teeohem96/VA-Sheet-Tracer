@@ -5,9 +5,6 @@ from main_app.helpers import *
 import numpy as np
 import sys
 import os
-sys.path.append(os.getcwd() + "..\\StreamlineCode\\")
-import im2vec
-import test_dsearchn_python
 
 ##sys.path.append("C:\\Users\\Trevor\\Documents\\scroll_shell_scripts\\cv2_UI\\")
 ##import im2vec

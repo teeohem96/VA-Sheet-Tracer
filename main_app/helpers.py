@@ -16,9 +16,9 @@ import struct
 
 # import matplotlib.pyplot as plt
 import sys
-sys.path.append(os.getcwd() + "..\\StreamlineCode\\")
-import im2vec
-import test_dsearchn_python
+import os
+from main_app.im2vec import *
+from main_app.test_dsearchn_python import *
 
 #point annotation object
 class Point(object):
@@ -137,7 +137,7 @@ def vector_trace(points, imShape, field):
 		print(pixels)
 		interp = []
 
-		flowline_1, flowline_2 = im2vec.create_stream_pair(
+		flowline_1, flowline_2 = create_stream_pair(
 			field[0], 
 			field[1], 
 			field[2], 
@@ -160,7 +160,7 @@ def vector_trace(points, imShape, field):
 		# with open(save_path + 'last_flow_2.npy', 'wb') as f:
 		# 	np.save(f, flowline_2)
 			
-		lineform = test_dsearchn_python.generate_unified_flowline(
+		lineform = generate_unified_flowline(
 			flowline_1, 
 			flowline_2, 
 			subsample_rate=5, 

@@ -28,8 +28,8 @@
     <li>
       <a href="#getting-started">Getting Started</a>
       <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
         <li><a href="#installation">Installation</a></li>
+        <li><a href="#prerequisites">Prerequisites</a></li>
       </ul>
     </li>
     <li><a href="#usage">Usage</a></li>
@@ -46,18 +46,20 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-We are a team of four people based in Toronto, Canada.  We are developing tools to assist in the segmentation and virtual unwrapping of the Herculaneum scrolls.  Our contribution to the “Segmentation Tooling 2” competition consists of python code with the following features:
+We are a Canadian team of four people, and we are developing tools to assist in the segmentation and virtual unwrapping of the Herculaneum scrolls.  Our contribution to the “Segmentation Tooling 2” competition consists of python code with the following features:
 
-* Integration into a fork of the VolumeAnnotate project (maintained by Moshe Levy [here](https://github.com/MosheLevy20/VolumeAnnotate))
+* Integration into a fork of the VolumeAnnotate project (maintained by Moshe Levy [here](https://github.com/MosheLevy20/VolumeAnnotate)
 * Option to upload a pre-generated vector field for each slice to facilitate papyrus line following
 * As part of the normal line-building workflow for each slice, VA now uses intelligent line finding.  This follows the vector contours of the line of the papyrus between two points.  This is in contrast to the manual generation of several straight-line segments that approximate the natural curvature of the underlying papyrus.  
 * The feature reduces the number of clicks manual segmenters need to make to generate virtual fragments. 
 
 The following are some examples of flowlines traced using the features of this tool:
 
-1. description, pics
-2. description, pics
-3. description, pics
+1. Long Distance Seeds.  This is useful in situations where the flow of the line is visually well defined, and can be called easily by the segmenter
+
+
+2. Moving in Traffic.  The Algorith handles crowded segments well, and allows for segmentation of crowded areas that are visually readable by a segmenter
+3. Parsing Mush.  Mushy sections can be hard to parse visually, but if the operator is confident in their judgement about where a segment starts and ends, the algorithm does a decent job of joining the two points.  
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -69,13 +71,6 @@ The following are some examples of flowlines traced using the features of this t
 <!-- GETTING STARTED -->
 ## Getting Started
 
-### Prerequisites
-
-Requirements can be installed with the following command: 
-  ```sh
-  pip install -r requirement.txt
-  ```
-  
 ### Installation
 
 Download a local copy of the current version of VA-Stream at [https://github.com/teeohem96/VA-Stream](https://github.com/teeohem96/VA-Stream)
@@ -83,8 +78,14 @@ Download a local copy of the current version of VA-Stream at [https://github.com
   git clone https://github.com/teeohem96/VA-Stream.git
   cd VolumeAnnotate
   ```
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+### Prerequisites
+
+Requirements can be installed with the following command: 
+  ```sh
+  pip install -r requirement.txt
+  ```
+<p align="right">(<a href="#readme-top">back to top</a>)</p>  
 <!-- USAGE EXAMPLES -->
 ## Usage
 
@@ -104,7 +105,7 @@ Note: Generating vector field files is CPU intensive.  The current implementatio
 * AMD Ryzen 7 2700x (3.7MHz, x64), 
 * 32GB RAM 
 * Windows 10 Pro.  
-This time cost is impractical for the average user running off the shelf hardware, and we are aware of the limits this imposes on testing our submission.  A pre-generated vector field from Scroll 1 slice index 06666.tif is available for download [here](https://drive.google.com/file/d/1TDmEMFlHvqm5BdxLqVw9CXD7--D-rWRH/view?usp=drive_link): (file size 2.9GB).  See the Roadmap section for more information on how we are making vector field generation run faster.  
+This time cost is impractical for the average user running off the shelf hardware, and we are aware of the limits this imposes on testing our submission.  We have uploaded pre-generated vector field files from Scroll 1 for slice indices [06666.tif](https://drive.google.com/file/d/1WT_rrzDXcYBfrOApCxgztPIua6jBHAcA/view?usp=drive_link), [06667.tif](https://drive.google.com/file/d/1u47Yt-a98yJ-fK3PVwOMDkF__MKRTSye/view?usp=drive_link), [06668.tif](https://drive.google.com/file/d/1nCq1sz4PbqTYPB_ob3k2V_nWN43lF9DO/view?usp=drive_link) are available for download: (file size 487MB).  See the Roadmap section for more information on how we are making vector field generation run faster.  
 
 5. To load an existing vector field file, click the “Load Slice Vector Field” button, and navigate to the vector field file associated with the current slice.  When generated, these files will have the same name as the slice image in the numpy format (e.g. slice 01234.tif will generate vector field file 01234.npy).  Select the file and click “Open”.  This will load the vector field file into VA-Stream.
 6. To trace lines on the slice, zoom and pan to an area of interest using the existing VA controls.  When you are ready to trace a line, enable the radio button labeled “Outline Fragment”.  Then, left click on the image at a point on the scroll where you want to start your line.  Aim for an existing line of papyrus.  A red dot will appear on the image.  Then, click on the part of the line you would like to join to the previous point.  VA-Stream will work to join the two points in a way that follows the “flow” of papyrus layers. 

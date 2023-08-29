@@ -90,7 +90,7 @@ We are a team of four people based in Toronto, Canada.  We are developing tools 
 ### Built With
 
 
-* [![Python][https://img.shields.io/badge/Python-FFD43B?style=for-the-badge&logo=python&logoColor=blue]][https://www.python.org/]
+* <img src="https://img.shields.io/badge/Python-FFD43B?style=for-the-badge&logo=python&logoColor=blue" /> 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -104,21 +104,22 @@ Requirements can be installed with the following from
 <!-- GETTING STARTED -->
 ## Getting Started
 
-1. Create a folder of tif image slices to analyze per the normal behavior of VolumeAnnotate.  Note that in order to use the intelligent line following tool, vector field files need to be generated for each slice in the folder
-2. To generate vector fields, run generate_vector_fields.py, passing the image source folder and vector field file output folder as keywords to generate the required vector field files.  
-  ```sh
-  python C:\path\to\input\slice\images, C:\path\to\output\vector\files
-  ```
-  
-Note: Generating vector fields is CPU intensive.  The current implementation requires significant time to generate for each slice.  As of 2023/08/27, we have benchmarked this code as taking around 4 hours per slice with the following hardware: AMD Ryzen 7 2700x (3.7MHz, x64), 32GB RAM running Windows 10 Pro.  This time cost is impractical for the average user running off the shelf hardware, and we are aware of the limits this imposes on testing our submission.  A sample vector field generated from “06666.tif” on scroll 1 is available for download [here](https://drive.google.com/file/d/1TDmEMFlHvqm5BdxLqVw9CXD7--D-rWRH/view?usp=drive_link): (file size 2.9GB).  See the Features in Development section for more information on how we are making vector field generation run faster.  
-
-3. From the VA-Stream folder, run VolumeAnnotate.py.  Note that some dependencies may need to be added depending on what site packages are available.  We have used the “pip install” command for installing libraries during testing.
+1. Create a folder containing the tif image slices you want to analyze per the normal behavior of VolumeAnnotate.  
+2. From the VA-Stream folder, run VolumeAnnotate.py.  
   ```sh
   python VolumeAnnotate.py
   ```
-4. From the App Startup widget, use the “Browse” button to select the folder containing the slice images described in Step 2, and then click the “Launch” button.
-5. The Frame Number (shown in the text box under the “Go To Number:” label) determines which slice is being shown for annotation.  To use intelligent line following, you must connect the slice to the generated vector file.  To do this, click the “Load Slice Vector Field” button (located at bottom right), and navigate to the vector field file associated with the current slice, and click “Open”.  This will load the vector field file into VA-Stream.
-6. To trace lines on the slice, zoom and pan to an area of interest using the existing VA controls.  When you are ready to trace a line, enable the radio button labeled “Outline Fragment”.  Then, left click on the image at a point on the scroll where you want to start your line.  A red dot will appear on the image.  Then, click on the part of the line you would like to join to the previous point.  VA-Stream will work to join the two points in a way that follows the “flow” of papyrus layers. 
+3. From the App Startup widget, use the “Browse” button to select the folder containing the slice images described in Step 2, and then click the “Launch” button.
+4. In order to use the intelligent line following tool, vector field files are needed for each slice to be analysed.  Vector field files can either be loaded or generated from the current slice.  To generate a vector field file for the current slice, click the "Generate Slice Vector Field" button, and enter a number in the popup dialog box.  This number represents the downsampling factor for the image.  The number should be odd for best performance.  A lower number will give better line tracing at the cost of longer generation time, and a higher number will generate more quickly at the cost of tracing precision.  We have tested the system with downsampling factors between 1 and 151.  
+
+Note: Generating vector fields is CPU intensive.  The current implementation requires significant time to generate for each slice.  As of 2023/08/27, we have benchmarked this code at stride factor 1 (maximum resolution) as taking around 4 hours per slice with the following hardware: 
+* AMD Ryzen 7 2700x (3.7MHz, x64), 
+* 32GB RAM 
+* Windows 10 Pro.  
+This time cost is impractical for the average user running off the shelf hardware, and we are aware of the limits this imposes on testing our submission.  A pre-generated vector field from Scroll 1 slice index 06666 is available for download [here](https://drive.google.com/file/d/1TDmEMFlHvqm5BdxLqVw9CXD7--D-rWRH/view?usp=drive_link): (file size 2.9GB).  See the Features in Development section for more information on how we are making vector field generation run faster.  
+
+5. To load an existing vector field file, click the “Load Slice Vector Field” button, and navigate to the vector field file associated with the current slice.  When generated, these files will have the same name as the slice image in the numpy format (e.g. slice 01234.tif will create vector field file 01234.npy).  Select the file and click “Open”.  This will load the vector field file into VA-Stream.
+6. To trace lines on the slice, zoom and pan to an area of interest using the existing VA controls.  When you are ready to trace a line, enable the radio button labeled “Outline Fragment”.  Then, left click on the image at a point on the scroll where you want to start your line.  Aim for an existing line of papyrus.  A red dot will appear on the image.  Then, click on the part of the line you would like to join to the previous point.  VA-Stream will work to join the two points in a way that follows the “flow” of papyrus layers. 
 
 Note: Joining points in VA-Stream is CPU intensive.  The current implementation is not instantaneous.  The other features of VA-Stream will not respond while the line joining process is in progress.  As of 2023/08/27, joining any two points on the slice takes around 10-20s.  See the Features in Development section for more information on how we are making automated line following faster. 
 
@@ -151,7 +152,10 @@ The following are some examples of flowlines traced using the features of this t
 2. description, pics
 3. description, pics
  
-
+To generate vector fields in bulk, run generate_vector_fields.py, passing the image source folder and vector field file output folder as keywords to generate the required vector field files.  
+  ```sh
+  python generate_vector_fields.py C:\path\to\input\slice\images, C:\path\to\output\vector\files
+  ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 

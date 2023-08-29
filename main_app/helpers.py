@@ -148,7 +148,7 @@ def vector_trace(points, imShape, field, mesh):
 			field[3], 
 			(pixels[-1][0], pixels[-1][1]), 
 			(pixels[0][0], pixels[0][1]), 
-			density=100, 
+			density=80, 
 			maxlength=0.5, 
 			origin = (3758, 3531)
 			)
@@ -165,7 +165,7 @@ def vector_trace(points, imShape, field, mesh):
 		lineform = generate_unified_flowline(
 			flowline_1, 
 			flowline_2, 
-			subsample_rate=10, 
+			subsample_rate=5, 
 			search_offset=0, 
 			bijection_infill_threshold=2, 
 			bijection_infill_style='dense'

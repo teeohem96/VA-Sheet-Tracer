@@ -1,7 +1,7 @@
 from main_app.eventHandlersBase import EventHandlerBase
 from .EdgeFinder import findEdges
 from main_app.helpers import *
-from main_app.im2vec import *
+from main_app.vector_tools import *
 
 import numpy as np
 import sys

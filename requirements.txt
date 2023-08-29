@@ -2,7 +2,7 @@
 matplotlib
 numpy
 opencv-python
-tifffile >= 2023.7.10
+tifffile >= 2021.11.2
 zarr
 PyQt5
 requests

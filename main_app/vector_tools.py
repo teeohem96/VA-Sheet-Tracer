@@ -5,8 +5,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 import skimage as skimg
 import scipy.ndimage as ndi
-import collections
-import pandas as pd
 
 def vectorize_streamlines(x, y, u, v, start, density = 500, maxlength=4.0):
     '''

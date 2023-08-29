@@ -1,0 +1,2 @@
+Requirement already satisfied: tifffile in c:\users\tom\appdata\local\anaconda3\lib\site-packages (2023.8.25)
+Requirement already satisfied: numpy in c:\users\tom\appdata\local\anaconda3\lib\site-packages (from tifffile) (1.21.5)

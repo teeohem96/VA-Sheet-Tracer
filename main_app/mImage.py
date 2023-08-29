@@ -4,6 +4,7 @@ import cv2
 from PyQt5.QtGui import QPixmap, QImage
 from PyQt5.QtCore import Qt
 from .helpers import adjust_color
+
 class mImage(object):
 	def __init__(self, frame_count, img_loader, img_loader_small=None, display_size=800):
 		self.img_loader = img_loader

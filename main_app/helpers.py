@@ -133,7 +133,7 @@ def interpolatePoints(points, imShape):
 def vector_trace(points, imShape, field, mesh):
 	if field is not None:
 		pixels = [[int(round(i.x*imShape[1])), int(round(i.y*imShape[0]))] for i in points]
-		print('pixels:')
+		print('Endpoints:')
 		print(pixels)
 		interp = []
 

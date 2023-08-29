@@ -1,0 +1,12 @@
+#requirements
+matplotlib
+numpy
+opencv-python
+tifffile >= 2023.7.10
+zarr
+PyQt5
+requests
+beautifulsoup4
+scipy
+trimesh
+scikit-image

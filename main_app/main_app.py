@@ -96,17 +96,10 @@ class App(QWidget):
             self.image.getImg(self._frame_index)
         self.panLen = self.image.img.width() / 5
 
-        
-
         # set grid layout, and assign widgets to app attributes
         self.mode.layout.getLayoutItems(self)
         
         self.setLayout(self.layout)
-
-
-        # self.pixelSize0 = self.image.loaded_shape[0] / self.image.img.height()
-        # self.pixelSize1 = self.image.loaded_shape[1] / self.image.img.width()
-        
 
         self.dragging = False
         self.draggingIndex = -1

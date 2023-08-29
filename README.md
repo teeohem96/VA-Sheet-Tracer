@@ -31,8 +31,6 @@
   </ol>
 </details>
 
-
-
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
@@ -47,12 +45,12 @@ The following are some examples of flowlines traced using the features of this t
 
 ### Long Distance Seeds
 
-This is useful in situations where the flow of the line is visually well defined, and can be called easily by the segmenter
+This is useful in situations where the flow of the line is visually well defined, and can be determined by the segmenter at a glance.  
 ![][line_image_wide_1] ![][line_image_wide_2]
 
 ### Moving in Traffic
 
-The Algorith handles crowded segments well, and allows for segmentation of crowded areas that are visually readable by a segmenter
+The algorith handles crowded segments well, and allows for segmentation of crowded areas that are visually readable by a segmenter
 ![][line_image_crowded_1] ![][line_image_crowded_2]
 
 ### Parsing Mush
@@ -60,7 +58,7 @@ The Algorith handles crowded segments well, and allows for segmentation of crowd
 Mushy sections can be hard to parse visually, but if the operator is confident in their judgement about where a segment starts and ends, the algorithm does a decent job of joining the two points.  
 ![][line_image_mush_1] ![][line_image_mush_2] 
 
-Overall this line tracing algorithm works well in a variety of situations commonly faced by segmenters.  We understand that more work must be done to increase performance in terms of speed, usability, and automation.  This project is ultimately intended to help recover the maximum amount of surface area with the minimum amonut of suffering.  
+Overall this line tracing algorithm works well in a variety of situations commonly faced by segmenters.  We understand that more work must be done to increase performance in terms of speed, usability, and automation.  This project is ultimately intended to help recover the maximum amount of surface area with the minimum amount of suffering.  
 
 ### Built With
 
@@ -72,9 +70,9 @@ Overall this line tracing algorithm works well in a variety of situations common
 
 ### Installation
 
-Download a local copy of the current version of VA-Stream at [https://github.com/teeohem96/VA-Stream](https://github.com/teeohem96/VA-Stream)
+Download a local copy of the current version of VA-Sheet-Tracer at [https://github.com/teeohem96/VA-Sheet-Tracer](https://github.com/teeohem96/VA-Sheet-Tracer)
   ```sh
-  git clone https://github.com/teeohem96/VA-Stream.git
+  git clone https://github.com/teeohem96/VA-Sheet-Tracer.git
   cd VolumeAnnotate
   ```
 
@@ -143,7 +141,7 @@ Backend Features:
 - [ ] Improved contextual line following using known segments
 - [ ] Live confidence metrics 
 
-See the [open issues](https://github.com/othneildrew/Best-README-Template/issues) for a full list of proposed features (and known issues).
+See the [open issues](https://github.com/teeohem96/VA-Sheet-Tracer/issues) for a full list of proposed features (and known issues).
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -153,7 +151,6 @@ See the [open issues](https://github.com/othneildrew/Best-README-Template/issues
 Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
 If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
-Don't forget to give the project a star! Thanks again!
 
 1. Fork the Project
 2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
@@ -178,7 +175,7 @@ Distributed under the GPL-v3 License. See `LICENSE.txt` for more information.
 Tom Wei - tom.wei@mail.utoronto.ca
 Trevor Plint - trevor.plint@mail.utoronto.ca
 
-Project Link: [https://github.com/teeohem96/VA-Stream](https://github.com/teeohem96/VA-Stream)
+Project Link: [https://github.com/teeohem96/VA-Sheet-Tracer](https://github.com/teeohem96/VA-Sheet-Tracer)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -186,7 +183,7 @@ Project Link: [https://github.com/teeohem96/VA-Stream](https://github.com/teeohe
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
 
-* This project is built on top of code developed by [Moshe Levy](https://github.com/MosheLevy20), without whose efforts this tool would not have been possible.  
+* This project is built directly on top of code developed by [Moshe Levy](https://github.com/MosheLevy20), without whose efforts this tool would not have been possible.  
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 

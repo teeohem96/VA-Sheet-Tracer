@@ -1,20 +1,6 @@
 <!-- Improved compatibility of back to top link: See: https://github.com/othneildrew/Best-README-Template/pull/73 -->
 <a name="readme-top"></a>
 
-<!-- PROJECT SHIELDS -->
-<!--
-*** I'm using markdown "reference style" links for readability.
-*** Reference links are enclosed in brackets [ ] instead of parentheses ( ).
-*** See the bottom of this document for the declaration of the reference variables
-*** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
-*** https://www.markdownguide.org/basic-syntax/#reference-style-links
--->
-[![Contributors][contributors-shield]][contributors-url]
-[![Forks][forks-shield]][forks-url]
-[![Stargazers][stars-shield]][stars-url]
-[![Issues][issues-shield]][issues-url]
-[![MIT License][license-shield]][license-url]
-[![LinkedIn][linkedin-shield]][linkedin-url]
 <!-- TABLE OF CONTENTS -->
 
 <details>
@@ -23,6 +9,9 @@
     <li>
       <a href="#about-the-project">About The Project</a>
       <ul>
+        <li><a href="#long-distance-seeds">Long Distance Seeds</a></li>
+        <li><a href="#moving-in-traffic">Moving in Traffic</a></li>
+        <li><a href="#parsing-mush">Parsing Mush</a></li>
         <li><a href="#built-with">Built With</a></li>
       </ul>
     </li>
@@ -56,16 +45,22 @@ We are a Canadian team of four people, and we are developing tools to assist in 
 
 The following are some examples of flowlines traced using the features of this tool:
 
-1. Long Distance Seeds.  This is useful in situations where the flow of the line is visually well defined, and can be called easily by the segmenter
+### Long Distance Seeds
+
+This is useful in situations where the flow of the line is visually well defined, and can be called easily by the segmenter
 ![][line_image_wide_1] ![][line_image_wide_2]
 
-2. Moving in Traffic.  The Algorith handles crowded segments well, and allows for segmentation of crowded areas that are visually readable by a segmenter
+### Moving in Traffic
+
+The Algorith handles crowded segments well, and allows for segmentation of crowded areas that are visually readable by a segmenter
 ![][line_image_crowded_1] ![][line_image_crowded_2]
 
-3. Parsing Mush.  Mushy sections can be hard to parse visually, but if the operator is confident in their judgement about where a segment starts and ends, the algorithm does a decent job of joining the two points.  
+### Parsing Mush
+
+Mushy sections can be hard to parse visually, but if the operator is confident in their judgement about where a segment starts and ends, the algorithm does a decent job of joining the two points.  
 ![][line_image_mush_1] ![][line_image_mush_2] 
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+Overall this line tracing algorithm works well in a variety of situations commonly faced by segmenters.  We understand that more work must be done to increase performance in terms of speed, usability, and automation.  This project is ultimately intended to help recover the maximum amount of surface area with the minimum amonut of suffering.  
 
 ### Built With
 

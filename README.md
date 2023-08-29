@@ -16,6 +16,7 @@
 [![MIT License][license-shield]][license-url]
 [![LinkedIn][linkedin-shield]][linkedin-url]
 <!-- TABLE OF CONTENTS -->
+
 <details>
   <summary>Table of Contents</summary>
   <ol>
@@ -56,10 +57,10 @@ We are a Canadian team of four people, and we are developing tools to assist in 
 The following are some examples of flowlines traced using the features of this tool:
 
 1. Long Distance Seeds.  This is useful in situations where the flow of the line is visually well defined, and can be called easily by the segmenter
-![][line_image_wide_1] ![][line_image_wide_1]
+![][line_image_wide_1] ![][line_image_wide_2]
 
 2. Moving in Traffic.  The Algorith handles crowded segments well, and allows for segmentation of crowded areas that are visually readable by a segmenter
-![][line_image_wide_1] ![][line_image_crowded_1]
+![][line_image_crowded_1] ![][line_image_crowded_2]
 
 3. Parsing Mush.  Mushy sections can be hard to parse visually, but if the operator is confident in their judgement about where a segment starts and ends, the algorithm does a decent job of joining the two points.  
 ![][line_image_mush_1] ![][line_image_mush_1] 

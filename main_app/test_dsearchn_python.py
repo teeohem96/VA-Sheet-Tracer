@@ -153,6 +153,10 @@ def generate_unified_flowline(flowline_1, flowline_2, subsample_rate=5, search_o
     print("generating unified flowline...")
     #flowline_2 = np.asarray(list(reversed(list(flowline_2))))
     # print("subsample_rate: "+str(subsample_rate))
+
+    print('flowline lengths:')
+    print(len(flowline_1))
+    print(len(flowline_2))
     flowline_1 = flowline_1[::subsample_rate]
     flowline_2 = flowline_2[::subsample_rate]
 

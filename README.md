@@ -63,7 +63,7 @@ The following are some examples of flowlines traced using the features of this t
 ![][line_image_crowded_1] ![][line_image_crowded_2]
 
 3. Parsing Mush.  Mushy sections can be hard to parse visually, but if the operator is confident in their judgement about where a segment starts and ends, the algorithm does a decent job of joining the two points.  
-![][line_image_mush_1] ![][line_image_mush_1] 
+![][line_image_mush_1] ![][line_image_mush_2] 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 

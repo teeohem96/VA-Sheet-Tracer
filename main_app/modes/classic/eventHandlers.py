@@ -367,7 +367,7 @@ class EventHandler(EventHandlerBase):
                             self.app.image.imshape,
                             self.app.vector_field,
                             self.app.mesh,
-                            self.app.origin
+                            self.app.origin,
                             )
 
                         self.app.image.annotation_buffer[self.app._frame_index].insert(closestIndex-1, newseg)

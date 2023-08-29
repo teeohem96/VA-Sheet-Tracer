@@ -46,21 +46,17 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
-
 We are a team of four people based in Toronto, Canada.  We are developing tools to assist in the segmentation and virtual unwrapping of the Herculaneum scrolls.  Our contribution to the “Segmentation Tooling 2” competition consists of python code with the following features:
 
 * Integration into a fork of the VolumeAnnotate project (maintained by Moshe Levy [here](https://github.com/MosheLevy20/VolumeAnnotate))
 * Option to upload a pre-generated vector field for each slice to facilitate papyrus line following
 * As part of the normal line-building workflow for each slice, VA now uses intelligent line finding.  This follows the vector contours of the line of the papyrus between two points.  This is in contrast to the manual generation of several straight-line segments that approximate the natural curvature of the underlying papyrus.  
 * The feature reduces the number of clicks manual segmenters need to make to generate virtual fragments. 
-
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ### Built With
 
 * <img src="https://img.shields.io/badge/Python-FFD43B?style=for-the-badge&logo=python&logoColor=blue" /> 
-
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ### Prerequisites
@@ -72,13 +68,18 @@ Requirements can be installed with the following from
 <!-- GETTING STARTED -->
 ## Getting Started
 
-1. Create a folder containing the tif image slices you want to analyze per the normal behavior of VolumeAnnotate.  
+1. Create a folder containing the .tif image slices you want to analyze per the normal behavior of VolumeAnnotate.  
 2. From the VA-Stream folder, run VolumeAnnotate.py.  
   ```sh
   python VolumeAnnotate.py
   ```
 3. From the App Startup widget, use the “Browse” button to select the folder containing the slice images described in Step 2, and then click the “Launch” button.
-4. In order to use the intelligent line following tool, vector field files are needed for each slice to be analysed.  Vector field files can either be loaded or generated from the current slice.  To generate a vector field file for the current slice, click the "Generate Slice Vector Field" button, and enter a number in the popup dialog box.  This number represents the downsampling factor for the image.  The number should be odd for best performance.  A lower number will give better line tracing at the cost of longer generation time, and a higher number will generate more quickly at the cost of tracing precision.  We have tested the system with downsampling factors between 1 and 151.  
+4. In order to use the intelligent line following tool, vector field files are needed for each slice to be analysed.  Vector field files can either be loaded from an existing .npy file, or generated on the fly from the current slice.  To generate a vector field file from the current slice, click the "Generate Slice Vector Field" button.  Enter a number in the popup dialog box.  
+* This number represents the downsampling factor for the image.  
+* The number should be odd for best performance.
+* A lower number will give better line tracing at the cost of longer generation time
+* A higher number will generate more quickly at the cost of tracing precision.  
+We have tested the system with downsampling factors between 1 and 151.  
 
 Note: Generating vector fields is CPU intensive.  The current implementation requires significant time to generate for each slice.  As of 2023/08/27, we have benchmarked this code at stride factor 1 (maximum resolution) as taking around 4 hours per slice with the following hardware: 
 * AMD Ryzen 7 2700x (3.7MHz, x64), 

@@ -82,7 +82,7 @@ Download a local copy of the current version of VA-Sheet-Tracer at [https://gith
 
 Requirements can be installed with the following command: 
   ```sh
-  pip install -r requirement.txt
+  pip install -r requirements.txt
   ```
 <p align="right">(<a href="#readme-top">back to top</a>)</p>  
 

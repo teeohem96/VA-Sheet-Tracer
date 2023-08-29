@@ -41,21 +41,23 @@ We are a Canadian team of four people, and we are developing tools to assist in 
 * As part of the normal line-building workflow for each slice, VA now uses intelligent line finding.  This follows the vector contours of the line of the papyrus between two points.  This is in contrast to the manual generation of several straight-line segments that approximate the natural curvature of the underlying papyrus.  
 * The feature reduces the number of clicks manual segmenters need to make to generate virtual fragments. 
 
+For an in depth explanation of our methodology to accompligh this outcome, check out the slide deck [here](https://github.com/teeohem96/VA-Sheet-Tracer/blob/master/example_traces/How%20VA%20Sheet%20Tracer%20Works.pptx.pdf)
+
 The following are some examples of flowlines traced using the features of this tool:
 
 ### Long Distance Seeds
 
-This is useful in situations where the flow of the line is visually well defined, and can be determined by the segmenter at a glance.  
+This is useful in situations where the flow of the line is visually well defined, and can be determined by the segmenter at a glance.  This capability can allow an experienced segmenter to capture significant line value in just a few clicks.
 ![][line_image_wide_1] ![][line_image_wide_2]
 
 ### Moving in Traffic
 
-The algorith handles crowded segments well, and allows for segmentation of crowded areas that are visually readable by a segmenter
+The algorith handles crowded segments well, and allows for segmentation of crowded areas that are visually readable by a segmenter.
 ![][line_image_crowded_1] ![][line_image_crowded_2]
 
 ### Parsing Mush
 
-Mushy sections can be hard to parse visually, but if the operator is confident in their judgement about where a segment starts and ends, the algorithm does a decent job of joining the two points.  
+Mushy sections can be challenging to parse visually, but if the operator is confident in their judgement about where a segment starts and ends, the algorithm does a decent job of joining the two points.  
 ![][line_image_mush_1] ![][line_image_mush_2] 
 
 Overall this line tracing algorithm works well in a variety of situations commonly faced by segmenters.  We understand that more work must be done to increase performance in terms of speed, usability, and automation.  This project is ultimately intended to help recover the maximum amount of surface area with the minimum amount of suffering.  

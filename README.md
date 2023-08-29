@@ -63,7 +63,7 @@ The following are some examples of flowlines traced using the features of this t
 
 ### Built With
 
-* [![Python][Python-shield][Python-url]]
+* [![Python][Python-shield]][Python-url]
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- GETTING STARTED -->
@@ -88,27 +88,25 @@ Download a local copy of the current version of VA-Stream at [https://github.com
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-1. Before running the program, create a folder containing the .tif image slices you want to analyze.  These files must follow the same rules as VolumeAnnotate.  Images must be single-channel greyscale, and the filenames must be entirely numerical.  ("0001.tif" and "1.tif" are acceptable, "1_edit.tif" and "test.tif" are not)
+1. Before running the program, create a folder containing the .tif image slices you want to analyze.  These files must follow the same rules as VolumeAnnotate.  Images must be single-channel greyscale, and the filenames must be entirely numerical ("0001.tif" and "1.tif" are acceptable, "1_edit.tif" and "test.tif" are not).
 2. From the VA-Stream folder, run VolumeAnnotate.py.  
   ```sh
   python VolumeAnnotate.py
   ```
 3. From the App Startup widget, use the “Browse” button to select the folder containing the slice images described in Step 2, and then click the “Launch” button.
-4. In order to use the intelligent line following tool, a vector field file must exist for the current slice.  Vector field files can either be loaded from an existing .npy file, or generated on the fly from the current slice.  To generate a vector field file from the current slice, click the "Generate Slice Vector Field" button.  Enter a number in the popup dialog box.  
+4. In order to use the intelligent line following tool, a vector field file must exist for the current slice.  Vector field files can either be loaded from an existing .npy file, or generated on the fly from the current slice.  To generate a vector field file from the current slice, click the "Generate Slice Vector Field" button.  Enter a number in the popup dialog box.  We have tested values between 3 and 151.  For preliminary work, a value of 51 is probably acceptable for most users.  
 * This number represents the downsampling factor for the image.  
 * The number should be odd for best performance.
 * A lower number will give better line tracing at the cost of longer generation time
 * A higher number will generate more quickly at the cost of tracing precision.  
 
-We have tested the system with downsampling factors between 1 and 151.  
-
-Note: Generating vector fields is CPU intensive.  The current implementation requires significant time to generate for each slice.  As of 2023/08/27, we have benchmarked this code at stride factor 1 (maximum resolution) as taking around 4 hours per slice with the following hardware: 
+Note: Generating vector field files is CPU intensive.  The current implementation requires significant time to generate for each slice.  As of 2023/08/27, we have benchmarked this code at subsampling 3 (maximum resolution) as taking around 4 hours per slice with the following hardware: 
 * AMD Ryzen 7 2700x (3.7MHz, x64), 
 * 32GB RAM 
 * Windows 10 Pro.  
 This time cost is impractical for the average user running off the shelf hardware, and we are aware of the limits this imposes on testing our submission.  A pre-generated vector field from Scroll 1 slice index 06666.tif is available for download [here](https://drive.google.com/file/d/1TDmEMFlHvqm5BdxLqVw9CXD7--D-rWRH/view?usp=drive_link): (file size 2.9GB).  See the Roadmap section for more information on how we are making vector field generation run faster.  
 
-5. To load an existing vector field file, click the “Load Slice Vector Field” button, and navigate to the vector field file associated with the current slice.  When generated, these files will have the same name as the slice image in the numpy format (e.g. slice 01234.tif will create vector field file 01234.npy).  Select the file and click “Open”.  This will load the vector field file into VA-Stream.
+5. To load an existing vector field file, click the “Load Slice Vector Field” button, and navigate to the vector field file associated with the current slice.  When generated, these files will have the same name as the slice image in the numpy format (e.g. slice 01234.tif will generate vector field file 01234.npy).  Select the file and click “Open”.  This will load the vector field file into VA-Stream.
 6. To trace lines on the slice, zoom and pan to an area of interest using the existing VA controls.  When you are ready to trace a line, enable the radio button labeled “Outline Fragment”.  Then, left click on the image at a point on the scroll where you want to start your line.  Aim for an existing line of papyrus.  A red dot will appear on the image.  Then, click on the part of the line you would like to join to the previous point.  VA-Stream will work to join the two points in a way that follows the “flow” of papyrus layers. 
 
 Note: Joining points in VA-Stream is CPU intensive.  The current implementation is not instantaneous.  The other features of VA-Stream will not respond while the line joining process is in progress.  As of 2023/08/27, joining any two points on the slice takes around 10-20s.  See the Roadmap section for more information on how we are making automated line following faster. 

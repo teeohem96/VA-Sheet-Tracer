@@ -84,8 +84,6 @@ We are a team of four people based in Toronto, Canada.  We are developing tools 
 * As part of the normal line building workflow for each slice, we have added the option to use intelligent line finding.  This follows the vector contours of the line of the papyrus between two points.  This is in contrast to the manual generation of several straight-line segments that approximate the natural curvature of the underlying papyrus.  
 * The feature reduces the number of clicks manual segmenters need to make to generate virtual fragments. 
 
-The difference looks like this:
-
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
@@ -99,10 +97,9 @@ The difference looks like this:
 
 ### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
-* npm
+Requirements can be installed with the following from 
   ```sh
-  npm install npm@latest -g
+  pip install -r requirement.txt
   ```
 <!-- GETTING STARTED -->
 ## Getting Started
@@ -130,7 +127,10 @@ Note: The intelligent line finding functionality has known stability issues whic
 The stability of the code as of 2023/08/29 is reflective of the early stages of development and the deadlines associated with the Vesuvius Challenge.  Therefore, some special conditions apply to the user.  Our goal is to make the behavior of this tool more robust over time.  As of the submission deadline, usage instructions are as follows:
 
 Download a local copy of the current version of VA-Stream at [https://github.com/teeohem96/VA-Stream](https://github.com/teeohem96/VA-Stream)
-
+  ```sh
+  git clone https://github.com/teeohem96/VA-Stream.git
+  cd VolumeAnnotate
+  ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -139,7 +139,12 @@ Download a local copy of the current version of VA-Stream at [https://github.com
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-The following are some examples 
+The following are some examples of flowlines traced using the features of this tool:
+
+1. description, pics
+2. description, pics
+3. description, pics
+ 
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>

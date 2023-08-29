@@ -1,7 +1,7 @@
 from main_app.eventHandlersBase import EventHandlerBase
 from .EdgeFinder import findEdges
 from main_app.helpers import *
-from main_app.im2vec import *
+from main_app.vector_tools import *
 
 import numpy as np
 import sys
@@ -270,6 +270,7 @@ class EventHandler(EventHandlerBase):
                             self.app.image.imshape,
                             self.app.vector_field,
                             self.app.mesh,
+                            self.app.origin,
                             )   
 
                         self.app.image.annotation_buffer[self.app._frame_index].append(rawline)
@@ -354,7 +355,7 @@ class EventHandler(EventHandlerBase):
                     
                     self.app.image.annotations[self.app._frame_index].pop(closestIndex)
 
-                    if closestIndex == 0: #first point deleted
+                    if (closestIndex == 0) and (len(self.app.image.annotations[self.app._frame_index]) > 1): #first point deleted
                        self.app.image.annotation_buffer[self.app._frame_index].pop(closestIndex)
 
                     elif closestIndex != len(self.app.image.annotations[self.app._frame_index]): #middle point deleted
@@ -366,11 +367,12 @@ class EventHandler(EventHandlerBase):
                             self.app.image.imshape,
                             self.app.vector_field,
                             self.app.mesh,
+                            self.app.origin
                             )
 
                         self.app.image.annotation_buffer[self.app._frame_index].insert(closestIndex-1, newseg)
 
-                    else: #last point deleted
+                    elif (len(self.app.image.annotation_buffer[self.app._frame_index]) > 0): #last point deleted
                         self.app.image.annotation_buffer[self.app._frame_index].pop(closestIndex-1)
                     
                     self.app.image.interpolated[self.app._frame_index] = concat_annotation_buffer(self.app.image.annotation_buffer[self.app._frame_index])

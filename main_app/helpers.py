@@ -130,7 +130,7 @@ def interpolatePoints(points, imShape):
 			interp.append(Point(x/imShape[1], y/imShape[0],0,2))
 	return interp
 
-def vector_trace(points, imShape, field, mesh):
+def vector_trace(points, imShape, field, mesh, origin):
 	if field is not None:
 		pixels = [[int(round(i.x*imShape[1])), int(round(i.y*imShape[0]))] for i in points]
 		print('Endpoints:')
@@ -150,7 +150,7 @@ def vector_trace(points, imShape, field, mesh):
 			(pixels[0][0], pixels[0][1]), 
 			density=80, 
 			maxlength=0.5, 
-			origin = (3758, 3531)
+			origin = origin
 			)
 		# print('flowline_1: ')
 		# print(flowline_1)

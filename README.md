@@ -79,9 +79,9 @@
 
 We are a team of four people based in Toronto, Canada.  We are developing tools to assist in the segmentation and virtual unwrapping of the Herculaneum scrolls.  Our contribution to the “Segmentation Tooling 2” competition consists of python code with the following features:
 
-* Integration into a fork of the VolumeAnnotate project (maintained by Moshe Levy here: https://github.com/MosheLevy20/VolumeAnnotate)
+* Integration into a fork of the VolumeAnnotate project (maintained by Moshe Levy [here](https://github.com/MosheLevy20/VolumeAnnotate))
 * Option to upload a pre-generated vector field for each slice to facilitate papyrus line following
-* As part of the normal line building workflow for each slice, we have added the option to use intelligent line finding.  This follows the vector contours of the line of the papyrus between two points.  This is in contrast to the manual generation of several straight-line segments that approximate the natural curvature of the underlying papyrus.  
+* As part of the normal line-building workflow for each slice, VA now uses intelligent line finding.  This follows the vector contours of the line of the papyrus between two points.  This is in contrast to the manual generation of several straight-line segments that approximate the natural curvature of the underlying papyrus.  
 * The feature reduces the number of clicks manual segmenters need to make to generate virtual fragments. 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -90,7 +90,7 @@ We are a team of four people based in Toronto, Canada.  We are developing tools 
 ### Built With
 
 
-* [![Python][Python.com]][https://www.python.org/]
+* [![Python][https://img.shields.io/badge/Python-FFD43B?style=for-the-badge&logo=python&logoColor=blue]][https://www.python.org/]
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -104,12 +104,18 @@ Requirements can be installed with the following from
 <!-- GETTING STARTED -->
 ## Getting Started
 
-1. Create a folder of slices to analyze per the normal behavior of VolumeAnnotate.  Note that in order to use the intelligent line following tool, vector field files need to be generated for each slice in the folder
-2. Run generate_vector_fields.py, passing the image source folder and vector field file output folder as keywords to generate the required vector field files.  
-
+1. Create a folder of tif image slices to analyze per the normal behavior of VolumeAnnotate.  Note that in order to use the intelligent line following tool, vector field files need to be generated for each slice in the folder
+2. To generate vector fields, run generate_vector_fields.py, passing the image source folder and vector field file output folder as keywords to generate the required vector field files.  
+  ```sh
+  python C:\path\to\input\slice\images, C:\path\to\output\vector\files
+  ```
+  
 Note: Generating vector fields is CPU intensive.  The current implementation requires significant time to generate for each slice.  As of 2023/08/27, we have benchmarked this code as taking around 4 hours per slice with the following hardware: AMD Ryzen 7 2700x (3.7MHz, x64), 32GB RAM running Windows 10 Pro.  This time cost is impractical for the average user running off the shelf hardware, and we are aware of the limits this imposes on testing our submission.  A sample vector field generated from “06666.tif” on scroll 1 is available for download [here](https://drive.google.com/file/d/1TDmEMFlHvqm5BdxLqVw9CXD7--D-rWRH/view?usp=drive_link): (file size 2.9GB).  See the Features in Development section for more information on how we are making vector field generation run faster.  
 
 3. From the VA-Stream folder, run VolumeAnnotate.py.  Note that some dependencies may need to be added depending on what site packages are available.  We have used the “pip install” command for installing libraries during testing.
+  ```sh
+  python VolumeAnnotate.py
+  ```
 4. From the App Startup widget, use the “Browse” button to select the folder containing the slice images described in Step 2, and then click the “Launch” button.
 5. The Frame Number (shown in the text box under the “Go To Number:” label) determines which slice is being shown for annotation.  To use intelligent line following, you must connect the slice to the generated vector file.  To do this, click the “Load Slice Vector Field” button (located at bottom right), and navigate to the vector field file associated with the current slice, and click “Open”.  This will load the vector field file into VA-Stream.
 6. To trace lines on the slice, zoom and pan to an area of interest using the existing VA controls.  When you are ready to trace a line, enable the radio button labeled “Outline Fragment”.  Then, left click on the image at a point on the scroll where you want to start your line.  A red dot will appear on the image.  Then, click on the part of the line you would like to join to the previous point.  VA-Stream will work to join the two points in a way that follows the “flow” of papyrus layers. 

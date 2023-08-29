@@ -88,7 +88,7 @@ Requirements can be installed with the following command:
 ## Usage
 
 1. Before running the program, create a folder containing the .tif image slices you want to analyze.  These files must follow the same rules as VolumeAnnotate.  Images must be single-channel greyscale, and the filenames must be entirely numerical ("0001.tif" and "1.tif" are acceptable, "1_edit.tif" and "test.tif" are not).
-2. From the VA-Stream folder, run VolumeAnnotate.py.  
+2. From the -Sheet-Tracer folder, run VolumeAnnotate.py.  
   ```sh
   python VolumeAnnotate.py
   ```
@@ -105,12 +105,12 @@ Note: Generating vector field files is CPU intensive.  The current implementatio
 * Windows 10 Pro.  
 This time cost is impractical for the average user running off the shelf hardware, and we are aware of the limits this imposes on testing our submission.  We have uploaded pre-generated vector field files from Scroll 1 for slice indices [06666.tif](https://drive.google.com/file/d/1WT_rrzDXcYBfrOApCxgztPIua6jBHAcA/view?usp=drive_link), [06667.tif](https://drive.google.com/file/d/1u47Yt-a98yJ-fK3PVwOMDkF__MKRTSye/view?usp=drive_link), [06668.tif](https://drive.google.com/file/d/1nCq1sz4PbqTYPB_ob3k2V_nWN43lF9DO/view?usp=drive_link) are available for download: (file size 487MB).  See the Roadmap section for more information on how we are making vector field generation run faster.  
 
-5. To load an existing vector field file, click the “Load Slice Vector Field” button, and navigate to the vector field file associated with the current slice.  When generated, these files will have the same name as the slice image in the numpy format (e.g. slice 01234.tif will generate vector field file 01234.npy).  Select the file and click “Open”.  This will load the vector field file into VA-Stream.
+5. To load an existing vector field file, click the “Load Slice Vector Field” button, and navigate to the vector field file associated with the current slice.  When generated, these files will have the same name as the slice image in the numpy format (e.g. slice 01234.tif will generate vector field file 01234.npy).  Select the file and click “Open”.  This will load the vector field file into VA-Sheet-Tracer.
 6. To trace lines on the slice, zoom and pan to an area of interest using the existing VA controls.  When you are ready to trace a line, enable the radio button labeled “Outline Fragment”.  Then, left click on the image at a point on the scroll where you want to start your line.  Aim for an existing line of papyrus.  A red dot will appear on the image.  Then, click on the part of the line you would like to join to the previous point.  VA-Stream will work to join the two points in a way that follows the “flow” of papyrus layers. 
 
-Note: Joining points in VA-Stream is CPU intensive.  The current implementation is not instantaneous.  The other features of VA-Stream will not respond while the line joining process is in progress.  As of 2023/08/27, joining any two points on the slice takes around 10-20s.  See the Roadmap section for more information on how we are making automated line following faster. 
+Note: Joining points in VA-Sheet-Tracer is CPU intensive.  The current implementation is not instantaneous.  The other features of VA-Sheet-Tracer will not respond while the line joining process is in progress.  As of 2023/08/27, joining any two points on the slice takes around 10-20s.  See the Roadmap section for more information on how we are making automated line following faster. 
 
-7. To continue the line, add more points.  VA-Stream features that involve moving points have not been tested for interaction with the line finding tool, and may cause crashes.  Use other features of VA-Stream as normal.
+7. To continue the line, add more points.  VA-Sheet-Tracer features that involve moving points have not been tested for interaction with the line finding tool, and may cause crashes.  Use other features of VA-Stream as normal.
 
 Note: The intelligent line finding functionality has known stability issues which may cause VA-Stream to terminate at unpredictable times.  We are working to improve the stability of this feature.  Please submit issues you encounter via the “Issues” tab on the GitHub page link above, being sure to include any information about the scroll number, slice index, and (x, y) points you deem to be associated with the instability.
  
@@ -172,8 +172,8 @@ Distributed under the GPL-v3 License. See `LICENSE.txt` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Tom Wei - tom.wei@mail.utoronto.ca
-Trevor Plint - trevor.plint@mail.utoronto.ca
+* Tom Wei - tom.wei@mail.utoronto.ca
+* Trevor Plint - trevor.plint@mail.utoronto.ca
 
 Project Link: [https://github.com/teeohem96/VA-Sheet-Tracer](https://github.com/teeohem96/VA-Sheet-Tracer)
 

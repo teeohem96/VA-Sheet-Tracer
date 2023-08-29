@@ -17,7 +17,7 @@ import struct
 # import matplotlib.pyplot as plt
 import sys
 import os
-from main_app.im2vec import *
+from main_app.vector_tools import *
 from main_app.test_dsearchn_python import *
 
 #point annotation object

@@ -41,7 +41,7 @@ We are a Canadian team of four people, and we are developing tools to assist in 
 * As part of the normal line-building workflow for each slice, VA now uses intelligent line finding.  This follows the vector contours of the line of the papyrus between two points.  This is in contrast to the manual generation of several straight-line segments that approximate the natural curvature of the underlying papyrus.  
 * The feature reduces the number of clicks manual segmenters need to make to generate virtual fragments. 
 
-For an in depth explanation of our methodology to accompligh this outcome, check out the slide deck [here](https://github.com/teeohem96/VA-Sheet-Tracer/blob/master/example_traces/How%20VA%20Sheet%20Tracer%20Works.pptx.pdf)
+For an in depth explanation of our methodology to accomplish this outcome, check out the slide deck [here](https://github.com/teeohem96/VA-Sheet-Tracer/blob/master/example_traces/How%20VA%20Sheet%20Tracer%20Works.pptx.pdf)
 
 The following are some examples of flowlines traced using the features of this tool:
 

@@ -75,7 +75,7 @@ Overall this line tracing algorithm works well in a variety of situations common
 Download a local copy of the current version of VA-Sheet-Tracer at [https://github.com/teeohem96/VA-Sheet-Tracer](https://github.com/teeohem96/VA-Sheet-Tracer)
   ```sh
   git clone https://github.com/teeohem96/VA-Sheet-Tracer.git
-  cd VolumeAnnotate
+  cd VA-Sheet-Tracer
   ```
 
 ### Prerequisites

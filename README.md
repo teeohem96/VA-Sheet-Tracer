@@ -112,9 +112,9 @@ This time cost is impractical for the average user running off the shelf hardwar
 
 Note: Joining points in VA-Sheet-Tracer is CPU intensive.  The current implementation is not instantaneous.  The other features of VA-Sheet-Tracer will not respond while the line joining process is in progress.  As of 2023/08/27, joining any two points on the slice takes around 10-20s.  See the Roadmap section for more information on how we are making automated line following faster. 
 
-7. To continue the line, add more points.  VA-Sheet-Tracer features that involve moving points have not been tested for interaction with the line finding tool, and may cause crashes.  Use other features of VA-Stream as normal.
+7. To continue the line, add more points.  VA-Sheet-Tracer features that involve moving points have not been tested for interaction with the line finding tool, and may cause crashes.  Use other features of VA-Sheet-Tracer as normal.
 
-Note: The intelligent line finding functionality has known stability issues which may cause VA-Stream to terminate at unpredictable times.  We are working to improve the stability of this feature.  Please submit issues you encounter via the “Issues” tab on the GitHub page link above, being sure to include any information about the scroll number, slice index, and (x, y) points you deem to be associated with the instability.
+Note: The intelligent line finding functionality has known stability issues which may cause VA-Sheet-Tracer to terminate at unpredictable times.  We are working to improve the stability of this feature.  Please submit issues you encounter via the “Issues” tab on the GitHub page link above, being sure to include any information about the scroll number, slice index, and (x, y) points you deem to be associated with the instability.
  
 To generate vector fields in advance and in bulk, run generate_vector_fields.py, passing the image source folder and vector field file output folder as keywords to generate the required vector field files.  
   ```sh

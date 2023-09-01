@@ -73,9 +73,11 @@ class EventHandler(EventHandlerBase):
         filename = QFileDialog.getSaveFileName(
             self.app, "Save File", os.getcwd(), "Numpy Files (*.npy)"
         )
+        
         stride, done = QInputDialog.getInt(
            self.app, 'Input Dialog', 'Enter stride (odd number):') 
-
+        # test commit 
+        print("stride: "+str(stride))
         origin = self.app.origin
 
         img = img = cv2.imread(self.app.tiffs[self.app._frame_index], cv2.IMREAD_UNCHANGED)

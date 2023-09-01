@@ -70,9 +70,7 @@ class EventHandler(EventHandlerBase):
                 self.app.image.imgShape = pickle.load(f)
 
     def on_gen_vec(self, event):
-        filename = QFileDialog.getSaveFileName(
-            self.app, "Save File", os.getcwd(), "Numpy Files (*.npy)"
-        )
+
         
         stride, done = QInputDialog.getInt(
            self.app, 'Input Dialog', 'Enter stride (odd number):') 
@@ -80,17 +78,43 @@ class EventHandler(EventHandlerBase):
         print("stride: "+str(stride))
         origin = self.app.origin
 
-        img = cv2.imread(self.app.tiffs[self.app._frame_index], cv2.IMREAD_UNCHANGED)
+        print("self.app._frame_index: " +str(self.app._frame_index))
+
+        # read function adapted to include stacked tif files which represent cell volume slices (e.g. cell_yxz_007_015_00025.tif)
+        img_stack = []
+        filepath = self.app.tiffs[0]
+        ret, img_stack = cv2.imreadmulti(filepath, img_stack, cv2.IMREAD_UNCHANGED)
+        print("multistack load return: "+str(ret))
+        print("loaded stack from \""+str(self.app.tiffs[0])+"\", found "+str(len(img_stack))+" z-axis slices...")
+        slice_index = self.app._frame_index
+        img = img_stack[slice_index]    
+        print("slice shape for stack index "+str(slice_index)+": "+str(img.shape))
+        
+        # original read function
+        #img = cv2.imread(self.app.tiffs[self.app._frame_index], cv2.IMREAD_UNCHANGED)
 
         u, v, ub, vb, _, _ = create_vec_field(img, stride = stride, win = 100, tex_thresh = 40000, pap_thresh = 30000, origin =  origin, sub_angles = 6, alpha_v = 7e-5, sigma_v = 2.0, alpha_p = 5.0, beta_p = 2.0, gamma_p = 0.3, delta_p = 1.4, sigma = 3.0)
 
-        print(filename[0])
-        if filename[0] != "":
-            stack = np.stack([u, v, ub, vb])
-            stack = np.float16(stack)
-            with open(filename[0], "wb") as f:
-                # cast from 32bit to 16bit precision on output
-                np.save(f, stack)
+        # autosave completed .npy file
+        output_file_path = filepath.split(".")[0]+"_slice"+str(slice_index)+".npy"  # NOTE: program uses 1-indexing, but python arrays use 0-indexing.
+        stack = np.stack([u, v, ub, vb])
+        stack = np.float16(stack)
+        print("saving stack to "+str(output_file_path)+"...")
+        with open(output_file_path, "wb") as f:
+            np.save(f,stack)
+        print("done.")
+            
+## open dialog to save each vector field manually        
+##        filename = QFileDialog.getSaveFileName(
+##            self.app, "Save File", os.getcwd(), "Numpy Files (*.npy)"
+##        )
+##        print("saving output to: "+str(filename[0]))
+##        if filename[0] != "":
+##            stack = np.stack([u, v, ub, vb])
+##            stack = np.float16(stack)
+##            with open(filename[0], "wb") as f:
+##                # cast from 32bit to 16bit precision on output
+##                np.save(f, stack)
 
     def on_load_vec(self, event):
         filename = QFileDialog.getOpenFileName(

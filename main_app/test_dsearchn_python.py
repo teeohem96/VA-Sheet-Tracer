@@ -160,6 +160,8 @@ def generate_unified_flowline(flowline_1, flowline_2, subsample_rate=5, search_o
     flowline_1 = flowline_1[::subsample_rate]
     flowline_2 = flowline_2[::subsample_rate]
 
+    
+
     pt_a = np.array((flowline_2[0,0], flowline_2[0,1]))
     pt_b = np.array((flowline_1[0,0], flowline_1[0,1]))
 

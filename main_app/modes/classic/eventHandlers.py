@@ -78,7 +78,7 @@ class EventHandler(EventHandlerBase):
 
         origin = self.app.origin
 
-        img = img = cv2.imread(self.app.tiffs[self.app._frame_index], cv2.IMREAD_UNCHANGED)
+        img = cv2.imread(self.app.tiffs[self.app._frame_index], cv2.IMREAD_UNCHANGED)
 
         u, v, ub, vb, _, _ = create_vec_field(img, stride = stride, win = 100, tex_thresh = 40000, pap_thresh = 30000, origin =  origin, sub_angles = 6, alpha_v = 7e-5, sigma_v = 2.0, alpha_p = 5.0, beta_p = 2.0, gamma_p = 0.3, delta_p = 1.4, sigma = 3.0)
 

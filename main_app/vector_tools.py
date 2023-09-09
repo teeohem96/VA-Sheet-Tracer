@@ -158,7 +158,7 @@ def create_vec_field(
                 ang_max = np.argmax(ang);
                 dirs[row, col] = 2*ang_max;
 
-    
+    print("done.")
     #upsample and pad to match original image size
     dirs = dirs.repeat(stride, 0).repeat(stride, 1)
     dirs = np.pad(dirs,(win//2, win//2))

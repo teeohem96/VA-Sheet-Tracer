@@ -100,6 +100,19 @@ class EventHandler(EventHandlerBase):
                 print('loaded vector field of shape: ')
                 print(self.app.vector_field.shape)
 
+    def on_extrapolate_annotations(self, event):
+        pass
+        # rawline = vector_trace(
+        #     self.app.image.annotations[self.app._frame_index][-2:],
+        #     self.app.image.imshape,
+        #     self.app.vector_field,
+        #     self.app.mesh,
+        #     self.app.origin,
+        #     )   
+
+        # self.app.image.annotation_buffer[self.app._frame_index].append(rawline)
+        # self.app.image.interpolated[self.app._frame_index].extend(rawline)
+
     def on_save(self, event):
         # save annotations to file using pickle, pop up window to ask for file name
         filename = QFileDialog.getSaveFileName(

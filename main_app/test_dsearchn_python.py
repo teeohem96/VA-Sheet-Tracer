@@ -186,7 +186,11 @@ def generate_unified_flowline(flowline_1, flowline_2, subsample_rate=5, search_o
     invalid = np.logical_or(angles_a > query_angle, angles_b > query_angle)
     # print('invalids: ')
     # print(invalid)
-    flowline_1 = flowline_1[invalid==0]
+    invalid_idx = np.nonzero(invalid)[0]
+
+    if invalid_idx.size:
+        flowline_1 = flowline_1[:invalid_idx[0]]
+
 
     distances_1, indices_1 = get_nearest_neighbor_indices(flowline_2,flowline_1)    # arguments are ordered: search space, then query points
     distances_2, indices_2 = get_nearest_neighbor_indices(flowline_1,flowline_2)

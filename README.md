@@ -95,7 +95,7 @@ Requirements can be installed with the following command:
   python VolumeAnnotate.py
   ```
 3. From the App Startup widget, use the “Browse” button to select the folder containing the slice images described in Step 2, and then click the “Launch” button.
-4. In order to use the intelligent line following tool, a vector field file must exist for the current slice.  Vector field files can either be loaded from an existing .npy file, or generated on the fly from the current slice.  To generate a vector field file from the current slice, click the "Generate Slice Vector Field" button.  Enter a number in the popup dialog box.  We have tested values between 3 and 151.  For preliminary work, a value of 51 is probably acceptable for most users.  
+4. In order to use the intelligent line following tool, a vector field file must exist for the current slice.  Vector field files can either be loaded from an existing .npy file, or generated on the fly from the current slice.  To generate a vector field file from the current slice, select the "Mark Origin" radio button and click on the image approximately where the centre of the scroll should be (currently the only indication that this step was successful is a console message confirming the new origin). Then, click the "Generate Slice Vector Field" button.  Enter a number in the popup dialog box.  We have tested values between 3 and 151.  For preliminary work, a value of 51 is probably acceptable for most users.  
 * This number represents the downsampling factor for the image.  
 * The number should be odd for best performance.
 * A lower number will give better line tracing at the cost of longer generation time

@@ -100,18 +100,38 @@ class EventHandler(EventHandlerBase):
                 print('loaded vector field of shape: ')
                 print(self.app.vector_field.shape)
 
-    def on_extrapolate_annotations(self, event):
-        pass
-        # rawline = vector_trace(
-        #     self.app.image.annotations[self.app._frame_index][-2:],
-        #     self.app.image.imshape,
-        #     self.app.vector_field,
-        #     self.app.mesh,
-        #     self.app.origin,
-        #     )   
+    def on_extrap(self, event):
+        if self.app._frame_index != 0:
+            if self.app.image.annotations[self.app._frame_index-1]:
+                fixed = self.app.image.img_loader.zarr_array[self.app._frame_index, :, :]
+                fixed = np.array(fixed)
+                moving = self.app.image.img_loader.zarr_array[self.app._frame_index-1, :, :]
+                moving = np.array(moving)
+                demons_tx = get_demons_registration_tx(fixed, moving)
+                self.app.image.annotations[self.app._frame_index] = apply_tx_to_annotations(
+                    demons_tx, 
+                    self.app.image.annotations[self.app._frame_index-1],
+                    self.app.image.imshape
+                    )
 
-        # self.app.image.annotation_buffer[self.app._frame_index].append(rawline)
-        # self.app.image.interpolated[self.app._frame_index].extend(rawline)
+                #transform ann_list
+                #self.app.image.annotations[self.app._frame_index] = self.app.image.annotations[self.app._frame_index-1]
+                self.app.image.annotation_buffer[self.app._frame_index] = interp_annotation_list(
+                    self.app.image.annotations[self.app._frame_index],
+                    self.app.image.imshape,
+                    self.app.vector_field,
+                    self.app.mesh,
+                    self.app.origin,
+                    )  
+
+                # print(self.app.image.annotation_buffer[self.app._frame_index]) 
+                self.app.image.interpolated[self.app._frame_index] = concat_annotation_buffer(self.app.image.annotation_buffer[self.app._frame_index])
+                self.app._update_image()
+            else:
+                print("No segmentations found on previous slice!")
+        else:
+            print("No previous slice found!")
+
 
     def on_save(self, event):
         # save annotations to file using pickle, pop up window to ask for file name

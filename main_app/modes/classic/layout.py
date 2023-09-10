@@ -59,6 +59,9 @@ def addItems(app):
     app.button_save_2D = QPushButton("Save 2D Projection", app)
     app.button_save_2D.clicked.connect(app.EH.on_save_2D)
 
+    app.button_extrap = QPushButton("Register adjacent annotation", app)
+    app.button_extrap.clicked.connect(app.EH.on_extrap)
+
     app.button_gen_vec = QPushButton("Generate Slice Vector Field", app)
     app.button_gen_vec.clicked.connect(app.EH.on_gen_vec)
 
@@ -297,6 +300,7 @@ def createLayout(app):
     control_layout2.addWidget(app.unwrapStyleWidget)
     control_layout2.addWidget(app.button_save_2D)
 
+    control_layout2.addWidget(app.button_extrap)
     control_layout2.addWidget(app.button_gen_vec)
     control_layout2.addWidget(app.button_load_vec)
 

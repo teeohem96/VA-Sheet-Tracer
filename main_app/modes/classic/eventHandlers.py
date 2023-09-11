@@ -303,7 +303,7 @@ class EventHandler(EventHandlerBase):
             
             if self.app.mouseMode == "Outline Fragment":
 
-                if self.app.vector_field is not None:
+                if self.app.vector_field is not None and self.app.image.origin[self.app._frame_index] is not None:
                     self.app.image.annotations[self.app._frame_index].append(Point(x, y))
                     if len(self.app.image.annotations[self.app._frame_index]) > 1:
 
@@ -319,7 +319,7 @@ class EventHandler(EventHandlerBase):
                         self.app.image.interpolated[self.app._frame_index].extend(rawline)
                     self.app._update_image()
                 else: 
-                    print("No vector field found!")
+                    print("Missing vector field or origin!")
 
             elif self.app.mouseMode == "Label Ink":
                 if len(self.app.image.interpolated[self.app._frame_index]) == 0:

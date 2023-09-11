@@ -22,7 +22,7 @@ class EventHandlerBase(object):
 		self.app._update_image()
 
 	def on_next_frame(self, event):
-		self.app._frame_index = min(self.app._frame_index + 10, self.app._frame_count - 10)
+		self.app._frame_index = min(self.app._frame_index + 10, self.app._frame_count - 1)
 		self.app._update_frame()
 
 	def on_previous_frame(self, event):

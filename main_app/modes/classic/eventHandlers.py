@@ -76,7 +76,10 @@ class EventHandler(EventHandlerBase):
         stride, done = QInputDialog.getInt(
            self.app, 'Input Dialog', 'Enter stride (odd number):') 
 
-        origin = self.app.image.origin[self.app._frame_index]
+        if self.app.image.origin[self.app._frame_index] is not None:
+            origin = self.app.image.origin[self.app._frame_index]
+        else:
+            origin = (3600,3600)
 
         img = cv2.imread(self.app.tiffs[self.app._frame_index], cv2.IMREAD_UNCHANGED)
 
@@ -397,7 +400,7 @@ class EventHandler(EventHandlerBase):
                     
                     self.app.image.annotations[self.app._frame_index].pop(closestIndex)
 
-                    if (closestIndex == 0) and (len(self.app.image.annotations[self.app._frame_index]) > 1): #first point deleted
+                    if (closestIndex == 0) and (len(self.app.image.annotations[self.app._frame_index]) > 0): #first point deleted
                        self.app.image.annotation_buffer[self.app._frame_index].pop(closestIndex)
 
                     elif closestIndex != len(self.app.image.annotations[self.app._frame_index]): #middle point deleted

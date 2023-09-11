@@ -161,13 +161,13 @@ def vector_trace(points, imShape, field, mesh, origin):
             )
         # print('flowline_1: ')
         # print(flowline_1)
-        # save_path = 'C:\\Users\\Tom\\Documents\\Vesuvius\\logs\\'
+        save_path = 'C:\\Users\\Tom\\Documents\\Vesuvius\\logs\\'
 
-        # with open(save_path + 'last_flow_1.npy', 'wb') as f:
-        #   np.save(f, flowline_1)
+        with open(save_path + 'last_flow_1.npy', 'wb') as f:
+          np.save(f, flowline_1)
 
-        # with open(save_path + 'last_flow_2.npy', 'wb') as f:
-        #   np.save(f, flowline_2)
+        with open(save_path + 'last_flow_2.npy', 'wb') as f:
+          np.save(f, flowline_2)
             
         lineform = generate_unified_flowline(
             flowline_1, 

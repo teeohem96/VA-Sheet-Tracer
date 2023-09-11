@@ -90,7 +90,7 @@ class App(QWidget):
         self.mesh = np.flip(self.mesh, 0) #permute axes to return x coordinate first
         #print(self.mesh.shape)
         #print(self.mesh[0])
-        self.origin = (3758,3531)
+        #self.origin = (3758,3531)
 
         if self.image.img is None:
             self.image.getImg(self._frame_index)
@@ -125,6 +125,8 @@ class App(QWidget):
     def _update_frame(self):
         # self.image.setImg(self._frame_index)
         self.frame_number.setText(f"Frame: {self._frame_index+1}/{self._frame_count}")
+        if self.image.origin[self._frame_index] is None:
+            self.EH.on_find_origin()
         self._update_image()
 
     def _update_image(self):

@@ -110,6 +110,8 @@ def adjust_color(image, shadows, midtones, highlights):
 
     return adjusted_image
 
+def find_origin(image):
+    return (1,1)
 
 def interpolatePoints(points, imShape):
     #use linear interpolation to interpolate between points in the annotation list
@@ -167,7 +169,8 @@ def vector_trace(points, imShape, field, mesh, origin):
             subsample_rate=5, 
             search_offset=0, 
             bijection_infill_threshold=2, 
-            bijection_infill_style='dense'
+            bijection_infill_style='dense',
+            origin = origin
             )
 
         for pt in lineform:

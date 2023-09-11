@@ -76,7 +76,7 @@ class EventHandler(EventHandlerBase):
         stride, done = QInputDialog.getInt(
            self.app, 'Input Dialog', 'Enter stride (odd number):') 
 
-        origin = self.app.origin
+        origin = self.app.image.origin[self.app._frame_index]
 
         img = cv2.imread(self.app.tiffs[self.app._frame_index], cv2.IMREAD_UNCHANGED)
 
@@ -100,6 +100,13 @@ class EventHandler(EventHandlerBase):
                 print('loaded vector field of shape: ')
                 print(self.app.vector_field.shape)
 
+    def on_find_origin(self, event):
+        img = self.app.image.img_loader.zarr_array[self.app._frame_index, :, :]
+        self.app.image.origin[self.app._frame_index] = find_origin(img)
+        print('Origin estimated at:')
+        print(self.app.image.origin[self.app._frame_index])
+
+
     def on_extrap(self, event):
         if self.app._frame_index != 0:
             if self.app.image.annotations[self.app._frame_index-1]:
@@ -121,7 +128,7 @@ class EventHandler(EventHandlerBase):
                     self.app.image.imshape,
                     self.app.vector_field,
                     self.app.mesh,
-                    self.app.origin,
+                    self.app.image.origin[self.app._frame_index],
                     )  
 
                 # print(self.app.image.annotation_buffer[self.app._frame_index]) 
@@ -303,7 +310,7 @@ class EventHandler(EventHandlerBase):
                             self.app.image.imshape,
                             self.app.vector_field,
                             self.app.mesh,
-                            self.app.origin,
+                            self.app.image.origin[self.app._frame_index],
                             )   
 
                         self.app.image.annotation_buffer[self.app._frame_index].append(rawline)
@@ -400,7 +407,7 @@ class EventHandler(EventHandlerBase):
                             self.app.image.imshape,
                             self.app.vector_field,
                             self.app.mesh,
-                            self.app.origin,
+                            self.app.image.origin[self.app._frame_index],
                             )
 
                         self.app.image.annotation_buffer[self.app._frame_index].insert(closestIndex-1, newseg)
@@ -414,9 +421,9 @@ class EventHandler(EventHandlerBase):
 
             elif self.app.mouseMode == "Mark Origin":
                 # print(self.app.image.imshape)
-                self.app.origin = (int(round(x*self.app.image.imshape[1])), int(round(y*self.app.image.imshape[0])))
+                self.app.image.origin[self.app._frame_index] = (int(round(x*self.app.image.imshape[1])), int(round(y*self.app.image.imshape[0])))
                 print('New origin set: ')
-                print(self.app.origin)
+                print(self.app.image.origin[self.app._frame_index])
                 #pixel_point = self.relative_point_to_pixel_point(point)
                 # self.app._update_image()
             else:

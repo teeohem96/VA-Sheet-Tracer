@@ -231,7 +231,51 @@ def create_vec_field(
 
     return u, v, ub, vb, mesh, dirs
 
-    
+def create_normals(
+    img, 
+    stride = 51, 
+    win = 100, 
+    tex_thresh = 40000
+    ):
+    '''
+    Leaner version of vector field generator that only generates normals
+    TODO: make this boiler plate in the vec field generator 
+    '''
+
+    N_y = img.shape[0]//stride + (-win)//stride
+    N_x = img.shape[1]//stride + (-win)//stride
+
+    dirs = np.zeros((N_y, N_x))
+
+    #clip image at tex_thresh to enhance textures and remove high intensity noise
+    clip_img = np.minimum(img, tex_thresh*np.ones(img.shape))
+    hann = skimg.filters.window('hann', (win+1, win+1))
+    for row in range(N_y):
+        print('processing row {row} of {N_y}...'.format(row = row + 1, N_y = N_y))
+        for col in range(N_x):
+            scout = img[stride*row + win//2 - stride//2 : stride*row + win//2 + stride//2 + 1, stride*col + win//2 - stride//2 : stride*col + win//2 + stride//2 + 1]
+            if np.mean(scout) > 0:
+                #generate region of interest and analyse in frequency domain
+                roi = clip_img[stride*row : stride*row + win+1, stride*col : stride*col + win+1]
+                #roi = clip_img[stride*(row+1) : stride*(row+1) + win + 1, stride*(col+1) : stride*(col+1) + win+1]
+                roi = roi * hann
+                
+                ft = np.abs(np.fft.fftshift(np.fft.fft2(roi)))
+                
+                r_max = 0.5*ft.shape[0]
+
+                ftp = skimg.transform.warp_polar(ft, radius=r_max, output_shape=(180,20), center = (win/2, win/2))
+                
+                #identify dominant texture angle
+                ang = np.sum(ftp, 1)
+                ang = ang[0:90] + ang[90:180]
+                #ang = moving_average(ang, 11) 
+                ang = running_mean_uniform_filter1d(ang, 5)
+                ang_max = np.argmax(ang);
+                dirs[row, col] = 2*ang_max;
+
+    print("done.")
+    return dirs
 ##def main():
 ##    img = cv2.imread('06666mask.tif', cv2.IMREAD_UNCHANGED)
 ##    #u, v, ub, vb, mesh, dirs = create_vec_field(img)

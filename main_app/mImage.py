@@ -33,6 +33,7 @@ class mImage(object):
 		self.annotations = [[] for i in range(frame_count)] #list of annotations of type mAnnotation
 		self.interpolated = [[] for i in range(frame_count)]
 		self.annotation_buffer = [[] for i in range(frame_count)]
+		self.origin = [None for i in range(frame_count)]
 		self.annotationRadius = 3
 
 		self.contrast = 3

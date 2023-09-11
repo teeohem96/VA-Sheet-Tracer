@@ -172,7 +172,7 @@ def generate_unified_flowline(flowline_1, flowline_2, subsample_rate=5, search_o
     c1 = np.linalg.norm(flowline_1 - pt_a, axis=1)
 
     a2 = np.linalg.norm(pt_b - np.array(origin))
-    b2s = np.linalg.norm(flowline_1 - np.array(origin), axis=1)
+    b2s = b1s
     # print('b2s: ')
     # print(b2s)
     c2 = np.linalg.norm(flowline_1 - pt_b, axis=1)
@@ -191,6 +191,23 @@ def generate_unified_flowline(flowline_1, flowline_2, subsample_rate=5, search_o
     if invalid_idx.size:
         flowline_1 = flowline_1[:invalid_idx[0]]
 
+    b1s = np.linalg.norm(flowline_2 - np.array(origin), axis=1)
+    c1 = np.linalg.norm(flowline_2 - pt_a, axis=1)
+
+    b2s = b1s
+    c2 = np.linalg.norm(flowline_2 - pt_b, axis=1)
+
+    angles_a = np.arccos((np.square(a1) + np.square(b1s) - np.square(c1))/(2*a1*b1s))
+    angles_b = np.arccos((np.square(a2) + np.square(b2s) - np.square(c2))/(2*a2*b2s))
+    query_angle = np.arccos((a1**2 + a2**2 - c_query**2)/(2*a1*a2))
+
+    invalid = np.logical_or(angles_a > query_angle, angles_b > query_angle)
+    # print('invalids: ')
+    # print(invalid)
+    invalid_idx = np.nonzero(invalid)[0]
+
+    if invalid_idx.size:
+        flowline_2 = flowline_2[:invalid_idx[0]]
 
     distances_1, indices_1 = get_nearest_neighbor_indices(flowline_2,flowline_1)    # arguments are ordered: search space, then query points
     distances_2, indices_2 = get_nearest_neighbor_indices(flowline_1,flowline_2)
@@ -358,7 +375,7 @@ def generate_unified_flowline(flowline_1, flowline_2, subsample_rate=5, search_o
         # Floor Division : Gives only Fractional Part as Answer
             flowline_1_pc = 1 - (bijection_start_2-bijective_index_pair[0])/((bijection_start_2-bijective_index_pair[0])+(bijection_start_1-bijective_index_pair[1]))
         except ZeroDivisionError:
-            print("div by zero btw")
+            print("WARNING: Gap detected in sheet. Interpolation will be linear across gap")
             flowline_1_pc = 0.5
 
         

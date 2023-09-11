@@ -110,7 +110,13 @@ def adjust_color(image, shadows, midtones, highlights):
 
     return adjusted_image
 
-def find_origin(image):
+def find_origin(img, stride = 51):
+    print('img shape:')
+    print(img.shape)
+    dirs = create_normals(img, stride = stride)
+    print('dirs shape:')
+    print(dirs.shape)
+
     return (1,1)
 
 def interpolatePoints(points, imShape):

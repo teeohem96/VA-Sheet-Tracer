@@ -126,7 +126,9 @@ class App(QWidget):
         # self.image.setImg(self._frame_index)
         self.frame_number.setText(f"Frame: {self._frame_index+1}/{self._frame_count}")
         if self.image.origin[self._frame_index] is None:
-            self.EH.on_find_origin()
+            print('origin finder called from here')
+            # img = self.image.img_loader.zarr_array[self._frame_index, :, :]
+            # self.image.origin[self._frame_index] = find_origin(img)
         self._update_image()
 
     def _update_image(self):

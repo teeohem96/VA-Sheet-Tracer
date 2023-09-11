@@ -101,8 +101,10 @@ class EventHandler(EventHandlerBase):
                 print(self.app.vector_field.shape)
 
     def on_find_origin(self, event):
+        stride, done = QInputDialog.getInt(
+           self.app, 'Input Dialog', 'Enter stride (odd number):') 
         img = self.app.image.img_loader.zarr_array[self.app._frame_index, :, :]
-        self.app.image.origin[self.app._frame_index] = find_origin(img)
+        self.app.image.origin[self.app._frame_index] = find_origin(img, stride)
         print('Origin estimated at:')
         print(self.app.image.origin[self.app._frame_index])
 

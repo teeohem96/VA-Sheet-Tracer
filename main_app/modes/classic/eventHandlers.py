@@ -69,7 +69,7 @@ class EventHandler(EventHandlerBase):
                 self.app.image.interpolated = pickle.load(f)
                 self.app.image.imgShape = pickle.load(f)
 
-    def on_gen_vec(self, event):
+    def on_gen_vec(self, event):        
         filename = QFileDialog.getSaveFileName(
             self.app, "Save File", os.getcwd(), "Numpy Files (*.npy)"
         )
@@ -82,6 +82,12 @@ class EventHandler(EventHandlerBase):
             origin = (3600,3600)
 
         img = cv2.imread(self.app.tiffs[self.app._frame_index], cv2.IMREAD_UNCHANGED)
+
+        # precompile njit function get_vector_field with dummy data
+        # (need this or speed boost is lost for first vectorfield generation event)
+        print("precompiling njit function...")
+        _ = get_vector_field(img, img, 0, 0, 1, 1, np.zeros(img.shape), 1)
+        print("done.")
 
         u, v, ub, vb, _, _ = create_vec_field(img, stride = stride, win = 100, tex_thresh = 40000, pap_thresh = 30000, origin =  origin, sub_angles = 6, alpha_v = 7e-5, sigma_v = 2.0, alpha_p = 5.0, beta_p = 2.0, gamma_p = 0.3, delta_p = 1.4, sigma = 3.0)
 

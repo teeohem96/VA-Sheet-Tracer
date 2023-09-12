@@ -6,6 +6,15 @@ import numpy as np
 import skimage as skimg
 import scipy.ndimage as ndi
 
+from numba import prange, njit, objmode
+import time
+from datetime import timedelta
+
+## NOTE: the np.fft.fft calls only works with the @njit decorator if the following package is installed:
+## https://github.com/styfenschaer/rocket-fft
+## pip install rocket-fft
+## for some reason it doesn't require an import statement, but if it's missing the fft calls will break.
+## see posts in this thread for more details: https://github.com/numba/numba/issues/5864
 
 #TODO: implement a radon transform version of this for batch processing on GPU
 def vectorize_streamlines(x, y, u, v, start, density = 80, maxlength=0.5):
@@ -92,6 +101,45 @@ def running_mean_uniform_filter1d(x, N):
     # moving average filter of length N, where the signal is wrapped (circular)
     return ndi.uniform_filter1d(x, N, mode='wrap', origin=-(N//2))[:-(N-1)]
 
+
+@njit (parallel=True)
+def get_vector_field(img, clip_img, N_x, N_y, stride, win, hann, uniform_filter_size):
+    dirs = np.zeros((N_y, N_x))
+    # for row in range(N_y):
+    for row in prange(N_y):
+        #print('processing row {row} of {N_y}...'.format(row = row + 1, N_y = N_y))
+        # for col in range(N_x):
+        for col in prange(N_x):
+            scout = img[stride*row + win//2 - stride//2 : stride*row + win//2 + stride//2 + 1, stride*col + win//2 - stride//2 : stride*col + win//2 + stride//2 + 1]
+            if np.mean(scout) > 0:
+                #generate region of interest and analyse in frequency domain
+                roi = clip_img[stride*row : stride*row + win+1, stride*col : stride*col + win+1]
+                roi = roi * hann
+                
+                #ft = np.abs(np.fft.fftshift(np.fft.fft2(roi)))     # 2D version; works in pure python, but not in njit 
+                ft = np.fft.fft(roi, axis=0)
+                ft = np.fft.fft(ft, axis = 1)
+                ft = np.abs(np.fft.fftshift(ft))
+
+                r_max = 0.5*ft.shape[0]
+                ftp = np.zeros((180,20))
+                # to remove njit, remove the objmode context
+                with objmode(ftp="float64[:,:]"):
+                    ftp = skimg.transform.warp_polar(ft, radius=r_max, output_shape=(180,20), center = (win/2, win/2))
+                
+                #identify dominant texture angle
+                ang = np.sum(ftp, 1)
+                ang = ang[0:90] + ang[90:180]
+                #ang = moving_average(ang, 11) 
+                #ang = running_mean_uniform_filter1d(ang, uniform_film_size)
+                # to remove njit, remove the objmode context
+                with objmode(ang="float64[:]"):
+                    ang = ndi.uniform_filter1d(ang, uniform_filter_size, mode='wrap', origin=-(uniform_filter_size//2))[:-(uniform_filter_size-1)]
+                ang_max = np.argmax(ang)
+                dirs[row, col] = 2*ang_max
+    #print("done.")
+    return dirs
+
 def create_vec_field(
     img, 
     stride = 3, 
@@ -129,36 +177,20 @@ def create_vec_field(
     N_y = img.shape[0]//stride + (-win)//stride
     N_x = img.shape[1]//stride + (-win)//stride
 
-    dirs = np.zeros((N_y, N_x))
+    uniform_filter_size = 5   # used by running_mean_uniform_filter1d()
 
     #clip image at tex_thresh to enhance textures and remove high intensity noise
     clip_img = np.minimum(img, tex_thresh*np.ones(img.shape))
     hann = skimg.filters.window('hann', (win+1, win+1))
-    for row in range(N_y):
-        print('processing row {row} of {N_y}...'.format(row = row + 1, N_y = N_y))
-        for col in range(N_x):
-            scout = img[stride*row + win//2 - stride//2 : stride*row + win//2 + stride//2 + 1, stride*col + win//2 - stride//2 : stride*col + win//2 + stride//2 + 1]
-            if np.mean(scout) > 0:
-                #generate region of interest and analyse in frequency domain
-                roi = clip_img[stride*row : stride*row + win+1, stride*col : stride*col + win+1]
-                #roi = clip_img[stride*(row+1) : stride*(row+1) + win + 1, stride*(col+1) : stride*(col+1) + win+1]
-                roi = roi * hann
-                
-                ft = np.abs(np.fft.fftshift(np.fft.fft2(roi)))
-                
-                r_max = 0.5*ft.shape[0]
 
-                ftp = skimg.transform.warp_polar(ft, radius=r_max, output_shape=(180,20), center = (win/2, win/2))
-                
-                #identify dominant texture angle
-                ang = np.sum(ftp, 1)
-                ang = ang[0:90] + ang[90:180]
-                #ang = moving_average(ang, 11) 
-                ang = running_mean_uniform_filter1d(ang, 5)
-                ang_max = np.argmax(ang);
-                dirs[row, col] = 2*ang_max;
-
+    time_start = time.time()
+    print("generating vector field.  (this may take quite a while)")
+    dirs = get_vector_field(img, clip_img, N_x, N_y, stride, win, hann, uniform_filter_size)
+    time_end = time.time()
+    runtime = time_end - time_start
     print("done.")
+    print("generation time with stride "+str(stride)+": "+str(timedelta(seconds=runtime))+"s")
+    
     #upsample and pad to match original image size
     dirs = dirs.repeat(stride, 0).repeat(stride, 1)
     dirs = np.pad(dirs,(win//2, win//2))

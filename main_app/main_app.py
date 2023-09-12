@@ -108,9 +108,7 @@ class App(QWidget):
         self.panning = False
         self.clickState = 0
         self.STREAM = STREAM
-
-
-        self.show()
+        self.show()        
 
     @property 
     def pixelSize0(self):

@@ -67,7 +67,7 @@ class EventHandler(EventHandlerBase):
             with open(filename[0], "rb") as f:
                 self.app.image.annotations = pickle.load(f)
                 self.app.image.interpolated = pickle.load(f)
-                self.app.image.imgShape = pickle.load(f)
+                self.app.image.imshape = pickle.load(f)
 
     def on_gen_vec(self, event):        
         filename = QFileDialog.getSaveFileName(
@@ -113,10 +113,14 @@ class EventHandler(EventHandlerBase):
         stride, done = QInputDialog.getInt(
            self.app, 'Input Dialog', 'Enter stride (odd number):') 
         img = self.app.image.img_loader.zarr_array[self.app._frame_index, :, :]
-        self.app.image.origin[self.app._frame_index] = find_origin(img, stride)
+        img = np.array(img)
+        origin = find_origin(img, stride)
+        self.app.image.origin[self.app._frame_index] = origin
+        # origin_pt = Point(origin[0]/self.app.image.imshape[0], origin[1]/self.app.image.imshape[1])
         print('Origin estimated at:')
-        print(self.app.image.origin[self.app._frame_index])
-
+        print(origin)
+        self.app.image.origin_annotations[self.app._frame_index] = Point(origin[0]/self.app.image.imshape[1], origin[1]/self.app.image.imshape[0])
+        self.app._update_image()
 
     def on_extrap(self, event):
         if self.app._frame_index != 0:
@@ -435,8 +439,9 @@ class EventHandler(EventHandlerBase):
                 self.app.image.origin[self.app._frame_index] = (int(round(x*self.app.image.imshape[1])), int(round(y*self.app.image.imshape[0])))
                 print('New origin set: ')
                 print(self.app.image.origin[self.app._frame_index])
+                self.app.image.origin_annotations[self.app._frame_index] = Point(x, y)
                 #pixel_point = self.relative_point_to_pixel_point(point)
-                # self.app._update_image()
+                self.app._update_image()
             else:
                 print(f"Warning: mouse mode not recognized: {self.app.mouseMode}")
         

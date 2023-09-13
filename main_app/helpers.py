@@ -5,6 +5,7 @@ import cv2
 import time
 import os
 import SimpleITK as sitk
+import matplotlib.pyplot as plt
 
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
@@ -110,14 +111,83 @@ def adjust_color(image, shadows, midtones, highlights):
 
     return adjusted_image
 
+def sum_cosine_magnitude(f1, f2, lag):
+    '''
+    evaluates vector dot product for each vector in 2D vector field autoconvolution at index [lag], and sums their square magnitudes. Vector analog of autoconvolution on absolute value of scalar field.
+    Field must have components as last axis.
+    '''
+
+    dot_prod = f1*np.roll(f2, lag, axis=(0,1))
+
+    return np.sum(np.power(dot_prod, 2))
+
+def convolve_disk_field(field, stride = 51, radius = 20):
+
+    r = radius
+    n = 2*r+1
+    y, x = np.ogrid[-r:n-r, -r:n-r]
+    mask = x*x + y*y > r*r
+    print("shape of disk:")
+    print(mask.shape)
+
+    theta = np.arctan2(y,x)
+    diskx = np.cos(theta)
+    diskx[mask] = 0
+    disky = np.sin(theta)
+    disky[mask] = 0
+    # plt.imshow(diskx)
+    # plt.show()
+
+    f2 = np.stack([diskx, disky], axis =-1)
+    
+    # print('f2 shape')
+    # print(f2.shape)
+
+    f1 = np.pad(field, ((0,f2.shape[0]),(0,f2.shape[1]), (0,0)))#postpad xy
+    f2 = np.pad(f2, ((field.shape[0],0),(field.shape[1],0), (0,0)))#prepad xy
+    # plt.imshow(f2[:,:,0])
+    # plt.show()
+    output = np.zeros((f1.shape[0], f1.shape[1]))
+    
+    for ylag in range(f1.shape[0]):
+        print('Analyzing row {ylag} of {nrows}'.format(ylag=ylag+1, nrows=f1.shape[0]))
+        for xlag in range(f1.shape[1]):
+            output[ylag, xlag] = sum_cosine_magnitude(f1, f2, (ylag, xlag))
+
+    return np.roll(output, (-1, -1), axis=(0,1))
+    # return np.array([])
+
 def find_origin(img, stride = 51):
     print('img shape:')
     print(img.shape)
-    dirs = create_normals(img, stride = stride)
-    print('dirs shape:')
-    print(dirs.shape)
 
-    return (1,1)
+    dirs = create_normals(img, stride = stride)
+    win = 100
+
+    img = img[win//2:-win//2:stride, win//2:-win//2:stride]
+
+    if img.shape != dirs.shape:
+        img = img[:dirs.shape[0]-img.shape[0],:dirs.shape[1]-img.shape[1]]
+
+    cosines = np.cos(np.radians(dirs))
+    cosines[img==0] = 0
+    sines = np.sin(np.radians(dirs))
+    sines[img==0] = 0
+    field = np.stack([cosines, sines], axis=-1)
+   
+    r = 1600//stride
+    autoconv = convolve_disk_field(field, stride = stride, radius = r)
+    # plt.imshow(autoconv)
+    # plt.show()
+
+    # Information theory-based approach if convolution insufficiently precise
+    # if ent.shape != autoconv.shape:
+    #     autoconv = autoconv[:ent.shape[0]-autoconv.shape[0],:ent.shape[1]-autoconv.shape[1]] #this is kind of hacky and should probably use modulo arithmetic
+    # ensemble = np.power(ent,2)*autoconv 
+
+    y,x = np.unravel_index(autoconv.argmax(), autoconv.shape)
+   
+    return ((x - r)*stride + win//2, (y - r)*stride + win//2)
 
 def interpolatePoints(points, imShape):
     #use linear interpolation to interpolate between points in the annotation list
